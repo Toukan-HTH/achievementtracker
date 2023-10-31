@@ -1,12 +1,67 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import CollapsibleSection from './CollapsibleSection.svelte'
     import Medal from './Medal.svelte'
+    import axios, {isCancel, AxiosError, type AxiosResponse} from 'axios';
     let medal = Medal
     let validatedToken = false;
+    let invalidTokenRecieved = false;
     let tokenInput = "";
+
+    onMount(() =>{
+        window.addEventListener('message', event => {
+
+            const message = event.data; // The JSON data our extension sent
+
+            switch (message.type) {
+                case 'at_token':
+                    tokenInput = message.value;
+                    validateToken();
+                    break;
+
+            }
+        });
+    })
+
     function validateToken() {
         if(!validatedToken){
-            validatedToken = true;
+            const instance = axios.create({
+                baseURL: "https://api.github.com/user",
+                headers: {"Authorization":'Bearer '+ tokenInput}
+            })
+             const response = instance.get("https://api.github.com/user").then(async (response: AxiosResponse<{login:string}>) => {
+                console.log(response.data);
+
+                if(response.status === 200){
+                    await tsvscode.postMessage({
+                        type:'saveData',
+                        tag: 'at_token',
+                        value:tokenInput
+                    });
+                    invalidTokenRecieved = false;
+                    validatedToken = true;
+                }
+                
+            
+            }).catch((error) => {
+                console.log("Token was not valid" + error);
+                tokenInput = "";
+                invalidTokenRecieved = true;
+                validatedToken = false;
+            
+            });
+        }
+    }
+
+    function checkIfValidTokenExists(){
+        try {
+            tsvscode.postMessage({
+                type:"retrieveData",
+                tag:"at_token",
+                value:""
+            });
+        } catch (error) {
+            console.log("Error while fetching token " + error);
         }
     }
 </script>
@@ -14,6 +69,16 @@
 <style>
     div {
         color:#fff;
+    }
+
+    .separator{
+        height:2px;
+        width:100%;
+    }
+    .wrapper{
+        display: flex;
+        padding: 5px;
+        flex-direction: column;
     }
     .content{
         border:1px solid #AF997B;
@@ -75,12 +140,23 @@
       text-align: center;
       line-height: 3px;
     }
+
+    .error-message{
+        font-size: 8px;
+        border:1px solid #fff;
+        border-radius: 2px;
+        display: flex;
+        justify-content: center;
+        color: red;
+        margin: 10px;
+        padding: 2px;
+    }
 </style>
 
 
 {#if validatedToken}
     <div class="wrapper">
-        <CollapsibleSection headerText={'Personal'} >
+        <CollapsibleSection headerText={'Personal'}>
             <div class="content">
                 <div class="top-row">
                     <div class="icon"><svelte:component this={medal} /></div>
@@ -112,11 +188,13 @@
                 </div>
             </div>
         </CollapsibleSection>
+        <div class="separator"></div>
         <CollapsibleSection headerText={'Social'} >
             <div class="content">
                     Look at all this fun content
             </div>
         </CollapsibleSection>
+        <div class="separator"></div>
         <CollapsibleSection headerText={'Knowledge'} >
             <div class="content">
                     Look at all this fun content
@@ -124,9 +202,14 @@
         </CollapsibleSection>
     </div>
     {:else}
-    <div>
-        <input type="text" bind:value={tokenInput}>
-        <button on:click={validateToken}>Submit Token</button>
-
-    </div>
+    {void checkIfValidTokenExists() ?? ""}
+        <div>
+            <input type="text" bind:value={tokenInput}>
+            <button on:click={validateToken}>Submit Token</button>
+        </div>
+    {#if invalidTokenRecieved}
+        <div class="error-message">
+            <h2>The Token is not valid or has expired, please try again</h2>
+        </div>
+    {/if}
 {/if}

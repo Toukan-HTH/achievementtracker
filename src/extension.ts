@@ -10,7 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	console.log('Congratulations, your extension "achievementtracker" is now active!');
 
-	const sidebarProvider = new SidebarProvider(context.extensionUri);
+	const sidebarProvider = new SidebarProvider(context.extensionUri, context);
 	context.subscriptions.push(
 	  vscode.window.registerWebviewViewProvider(
 		"achievementtracker-sidebar",

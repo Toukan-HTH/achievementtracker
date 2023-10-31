@@ -5,8 +5,10 @@ import { getNonce } from "./GetNonce";
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
   _doc?: vscode.TextDocument;
+  private _secretStorage: vscode.SecretStorage;
 
-  constructor(private readonly _extensionUri: vscode.Uri) {}
+  constructor(private readonly _extensionUri: vscode.Uri,private _context: vscode.ExtensionContext,) {		this._secretStorage = this._context.secrets;
+}
 
   public resolveWebviewView(webviewView: vscode.WebviewView) {
     this._view = webviewView;
@@ -22,6 +24,29 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     webviewView.webview.onDidReceiveMessage(async (data) => {
       switch (data.type) {
+        case "saveData":{
+          if(data.tag=="at_token"){
+            await this._secretStorage.store("at_token",data.value);
+            return;
+          }else{
+            return;
+          }
+        }
+
+        case "deleteData":{
+          return;
+        }
+
+        case "retrieveData":{
+          // send data  back to webview
+          webviewView.webview.postMessage({
+            type:data.tag,
+            value: await this._secretStorage.get(data.tag),
+          });
+
+          return;
+        }
+
         case "onInfo": {
           if (!data.value) {
             return;
@@ -76,6 +101,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 				<link href="${styleResetUri}" rel="stylesheet">
 				<link href="${styleVSCodeUri}" rel="stylesheet">
         <link href="${styleMainUri}" rel="stylesheet">
+        <script nonce="${nonce}">
+          const tsvscode = acquireVsCodeApi();
+        </script>
 			</head>
       <style>
       body{
