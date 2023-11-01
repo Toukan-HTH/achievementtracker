@@ -29,8 +29,20 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             await this._secretStorage.store("at_token",data.value);
             return;
           }else{
+            await this._secretStorage.store(String(data.tag),data.value);
             return;
           }
+        }
+
+        case "updateRuntimeStore":{
+          data.value.forEach(async (element: string) => {
+            console.log("Sending message with element: " + element);
+            console.log("variable for this element is: "+ await this._secretStorage.get(element))
+              webviewView.webview.postMessage({
+                type:element,
+                value: await this._secretStorage.get(element),
+              });
+          });
         }
 
         case "deleteData":{

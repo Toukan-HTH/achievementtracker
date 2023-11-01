@@ -3,16 +3,28 @@
     import CollapsibleSection from './CollapsibleSection.svelte'
     import Medal from './Medal.svelte'
     import axios, {isCancel, AxiosError, type AxiosResponse} from 'axios';
+    import {achievementTags} from './ScriptsRepository.svelte'
+
+
+
     let medal = Medal
     let validatedToken = false;
     let invalidTokenRecieved = false;
     let tokenInput = "";
+    let tagMap = new Map();
 
     onMount(() =>{
+        //Setting up the in webview key value store for runtime use
+        achievementTags.forEach(element => {
+            tagMap.set(element, 0);
+        });
+
+
         window.addEventListener('message', event => {
 
             const message = event.data; // The JSON data our extension sent
 
+            // switch incase we ever need to add specific types that should be handled different
             switch (message.type) {
                 case 'at_token':
                     tokenInput = message.value;
@@ -20,7 +32,18 @@
                     break;
 
             }
+            console.log("Recieved Message in webview, value is: " + message.value);
+            tagMap.set(event.type,Number(message.value));
+            console.log(tagMap.get(event.type) + " is the tag");
         });
+
+        
+        tsvscode.postMessage({
+            type: "updateRuntimeStore",
+            tag:"",
+            value:Array.from(tagMap.keys())
+        });
+
     })
 
     function validateToken() {
