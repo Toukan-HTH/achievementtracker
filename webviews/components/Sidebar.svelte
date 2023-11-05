@@ -11,6 +11,7 @@
     let validatedToken = false;
     let invalidTokenRecieved = false;
     let tokenInput = "";
+    let oldLoginName = "";
     let tagMap = new Map();
 
     onMount(() =>{
@@ -30,7 +31,9 @@
                     tokenInput = message.value;
                     validateToken();
                     break;
-
+                case 'login_name':
+                    oldLoginName = message.value;
+                    break;
             }
             console.log("Recieved Message in webview, value is: " + message.value);
             tagMap.set(event.type,Number(message.value));
@@ -56,10 +59,31 @@
                 console.log(response.data);
 
                 if(response.status === 200){
+                    if(oldLoginName != response.data.login && oldLoginName != ""){
+                        await tsvscode.postMessage({
+                            type:'resetStorage',
+                            tag: '',
+                            value:Array.from(tagMap.keys())
+                        });
+
+                        tagMap.clear();
+
+                        achievementTags.forEach(element => {
+                            tagMap.set(element, 0);
+                        });
+                    }
+
+
                     await tsvscode.postMessage({
                         type:'saveData',
                         tag: 'at_token',
                         value:tokenInput
+                    });
+
+                    await tsvscode.postMessage({
+                        type:'saveData',
+                        tag: 'login_name',
+                        value:response.data.login
                     });
                     invalidTokenRecieved = false;
                     validatedToken = true;
@@ -81,6 +105,11 @@
             tsvscode.postMessage({
                 type:"retrieveData",
                 tag:"at_token",
+                value:""
+            });
+            tsvscode.postMessage({
+                type:"retrieveData",
+                tag:"login_name",
                 value:""
             });
         } catch (error) {
