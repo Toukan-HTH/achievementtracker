@@ -210,7 +210,7 @@
 
 {#if validatedToken}
     <div class="wrapper">
-        {#await getNumberOfCommits("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" , 500, oldLoginName)}
+        {#await getNumberOfCommits(tokenInput , 500, oldLoginName)}
             <p>Fetching....</p>
         {:then value} 
             {value}
