@@ -3,7 +3,7 @@
     import CollapsibleSection from './CollapsibleSection.svelte'
     import Medal from './Medal.svelte'
     import axios, {isCancel, AxiosError, type AxiosResponse} from 'axios';
-    import {achievementTags} from './ScriptsRepository.svelte'
+    import {achievementTags,getNumberOfCommits} from './ScriptsRepository.svelte'
 
 
 
@@ -71,6 +71,8 @@
                         achievementTags.forEach(element => {
                             tagMap.set(element, 0);
                         });
+
+                        oldLoginName = response.data.login;
                     }
 
 
@@ -208,6 +210,12 @@
 
 {#if validatedToken}
     <div class="wrapper">
+        {#await getNumberOfCommits("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" , 500, oldLoginName)}
+            <p>Fetching....</p>
+        {:then value} 
+            {value}
+        {/await}
+        
         <CollapsibleSection headerText={'Personal'}>
             <div class="content">
                 <div class="top-row">
