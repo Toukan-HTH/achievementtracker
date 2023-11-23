@@ -49,6 +49,20 @@
 
     })
 
+    function calcPercentage(x:number, y:number, fixed = 2) {
+        const percent = (x / y) * 100
+        return percent.toFixed(fixed) ;
+    }
+
+    async function logOutUser(){
+        await tsvscode.postMessage({
+                            type:'deleteData',
+                            tag: '',
+                            value:"at_token"
+                        });
+                        validatedToken=false;
+    }
+
     function validateToken() {
         if(!validatedToken){
             const instance = axios.create({
@@ -210,11 +224,10 @@
 
 {#if validatedToken}
     <div class="wrapper">
-        {#await getNumberOfCommits(tokenInput , 500, oldLoginName)}
-            <p>Fetching....</p>
-        {:then value} 
-            {value}
-        {/await}
+
+        <div class="buttons">
+            <button on:click={logOutUser}>Logout</button>
+        </div>
         
         <CollapsibleSection headerText={'Personal'}>
             <div class="content">
@@ -228,7 +241,11 @@
                 </div>
                 <div class="bottom-row">
                     <div class="progress-container">
-                        <div class="progress" style="width: 60%">300/500</div>
+                        {#await getNumberOfCommits(tokenInput , 500, oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value} 
+                            <div class="progress" style="width: {calcPercentage(value,500)}%">{value}/500</div>
+                        {/await}
                       </div>
                 </div>
             </div>

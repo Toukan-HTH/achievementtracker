@@ -54,6 +54,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         }
 
         case "deleteData":{
+          await this._secretStorage.delete(data.value);
           return;
         }
 

@@ -34,7 +34,8 @@
     }
 
 
-    function getNumberOfCommittedLines(instance:AxiosInstance,repoNames:string[], user:string){
+    function getNumberOfCommittedLines(instance:AxiosInstance,repoNames:string[], user:string, upperLimit:number){
+        let localHoldValue = 0;
         let commitNumbers:number[] = [];
 
 
@@ -48,6 +49,10 @@
                     const commitedLinesPerSha =  await instance.get("https://api.github.com/repos/"+user+ "/" + repoNames[index] + "/commits/"+commitShas[y]).then(async(response:AxiosResponse<{committer:{login:string},stats:{additions:number}}>)=>{
                     if(response.data.committer.login==user){
                         commitNumbers.push(response.data.stats.additions);
+                        localHoldValue += response.data.stats.additions;
+                        if(localHoldValue>=upperLimit){
+                            resolve(upperLimit);
+                        }
                     }
                     }).catch((error) => {
 
@@ -75,7 +80,7 @@
 
         //let commitShas: string[] = await getAllCommitShas(instance, repoNames, user);
 
-        let numbersOfCommittedLines = await getNumberOfCommittedLines(instance,repoNames,user);
+        let numbersOfCommittedLines = await getNumberOfCommittedLines(instance,repoNames,user,upperLimit);
 
 
          return numbersOfCommittedLines;
