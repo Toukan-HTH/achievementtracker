@@ -219,6 +219,9 @@
         margin: 10px;
         padding: 2px;
     }
+    .buttons{
+        margin:5px;
+    }
 </style>
 
 
