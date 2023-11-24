@@ -72,6 +72,21 @@
         return bar;
     }
 
+    function getNumberOfRepositories(repos:string[], upperLimit:number){
+        let localHoldValue = 0
+        var bar = new Promise<number>(async (resolve, reject) => {
+            repos.forEach(() => {
+                localHoldValue++;
+                if(localHoldValue>=upperLimit){
+                    resolve(upperLimit);
+                }
+            });
+            // every repo should have been counted by this point, return the total number of repos counted
+            resolve(localHoldValue);
+        })
+        return bar;
+    }
+
     export async function getNumberOfCommits(token:string , upperLimit:number, user:string){
         const instance = axios.create({
                 headers: {"Authorization":'Bearer '+ token}
@@ -84,5 +99,14 @@
 
 
          return numbersOfCommittedLines;
+    }
+
+
+    export async function getNumberOfRepos(token:string, upperLimit:number){
+        const instance = axios.create({
+                headers: {"Authorization":'Bearer '+ token}
+            });
+        let repoNames: string[] = await getAllRepos(instance);
+        return getNumberOfRepositories(repoNames,upperLimit);
     }
 </script>

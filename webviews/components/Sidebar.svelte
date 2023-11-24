@@ -3,7 +3,9 @@
     import CollapsibleSection from './CollapsibleSection.svelte'
     import Medal from './Medal.svelte'
     import axios, {isCancel, AxiosError, type AxiosResponse} from 'axios';
-    import {achievementTags,getNumberOfCommits} from './ScriptsRepository.svelte'
+    import {achievementTags,
+        getNumberOfCommits,
+    getNumberOfRepos} from './ScriptsRepository.svelte'
 
 
 
@@ -263,7 +265,11 @@
                 </div>
                 <div class="bottom-row">
                     <div class="progress-container">
-                        <div class="progress" style="width: 0%">0/1</div>
+                        {#await getNumberOfRepos(tokenInput , 1)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value} 
+                            <div class="progress" style="width: {calcPercentage(value,1)}%">{value}/1</div>
+                        {/await}
                       </div>
                 </div>
             </div>
