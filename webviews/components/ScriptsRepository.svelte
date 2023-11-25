@@ -87,6 +87,39 @@
         return bar;
     }
 
+    function calculateNumberOfReposUsingLanguage(repos:string[], upperLimit:number, language:string, token:string, user:string, instance:AxiosInstance){
+        let localHoldValue = 0;
+        let localRepoCounter = 0;
+        var bar = new Promise<boolean>(async (resolve,reject) => {
+            repos.forEach(async (element) => {
+                // find out if repo with name x uses language y
+                const languageListPerRepo =  await instance.get("https://api.github.com/repos/"+user+ "/" + element + "/languages").then(async(response)=>{
+                        if(response.status==200){
+                            const arr = [...new Map(Object.entries(response.data))];
+                            arr.forEach(element => {
+                                if(element[0].toString().toLowerCase()==language.toLowerCase()){
+                                    console.log(element[0] + " is the value were testing against " + language);
+                                    localHoldValue++;
+                                    if(localHoldValue>=upperLimit){
+                                        resolve(true);
+                                    }
+                                }
+                            })
+                        }
+                    }).catch((error) => {
+
+                    })
+                    // we finished 1 repo, check if its the last one and if we have not resolved yet, return false
+                    localRepoCounter++;
+                    console.log(localRepoCounter+ "is the current iteration, the total length is: "+ repos.length);
+                    if(localRepoCounter>=repos.length){
+                        resolve(false);
+                    }
+            })
+        })
+        return bar;
+    }
+
     export async function getNumberOfCommits(token:string , upperLimit:number, user:string){
         const instance = axios.create({
                 headers: {"Authorization":'Bearer '+ token}
@@ -108,5 +141,13 @@
             });
         let repoNames: string[] = await getAllRepos(instance);
         return getNumberOfRepositories(repoNames,upperLimit);
+    }
+
+    export async function getNumberOfReposUsingLanguage(token:string, upperLimit:number, language:string, user:string){
+        const instance = axios.create({
+                headers: {"Authorization":'Bearer '+ token}
+            });
+        let repoNames: string[] = await getAllRepos(instance);
+        return calculateNumberOfReposUsingLanguage(repoNames,upperLimit,language,token,user,instance);
     }
 </script>

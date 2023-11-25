@@ -5,7 +5,8 @@
     import axios, {isCancel, AxiosError, type AxiosResponse} from 'axios';
     import {achievementTags,
         getNumberOfCommits,
-    getNumberOfRepos} from './ScriptsRepository.svelte'
+    getNumberOfRepos,
+    getNumberOfReposUsingLanguage} from './ScriptsRepository.svelte'
 
 
 
@@ -257,6 +258,63 @@
             <div class="content">
                 <div class="top-row">
                     <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Commit 5000 lines</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Commit 5000 lines of code to your github account</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfCommits(tokenInput , 5000, oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value} 
+                            <div class="progress" style="width: {calcPercentage(value,5000)}%">{value}/5000</div>
+                        {/await}
+                      </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Commit 50 000 lines</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Commit 50 000 lines of code to your github account</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfCommits(tokenInput , 50000, oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value} 
+                            <div class="progress" style="width: {calcPercentage(value,50000)}%">{value}/50000</div>
+                        {/await}
+                      </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Commit 500 000 lines</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Commit 500 000 lines of code to your github account</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfCommits(tokenInput , 500000, oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value} 
+                            <div class="progress" style="width: {calcPercentage(value,500000)}%">{value}/500000</div>
+                        {/await}
+                      </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
                     <h2 class="title">Create a reposotiry</h2>
                 </div>
                 <div class="middle-row">
@@ -283,7 +341,27 @@
         <div class="separator"></div>
         <CollapsibleSection headerText={'Knowledge'} >
             <div class="content">
-                    Look at all this fun content
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Write Javascript</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Use javascript!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfReposUsingLanguage(tokenInput , 1, "JavaScript", oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value}
+                        {#if value}
+                            <div class="progress" style="width: 100%">Completed</div>
+                        {:else}
+                            <div class="progress" style="width: 0%">Incomplete</div>
+                        {/if}
+                        {/await}
+                      </div>
+                </div>
             </div>
         </CollapsibleSection>
     </div>
