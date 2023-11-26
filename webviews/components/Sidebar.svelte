@@ -368,6 +368,259 @@
                       </div>
                 </div>
             </div>
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Write C</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Use C!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfReposUsingLanguage(tokenInput , 1, "C", oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value}
+                        {#if value}
+                            <div class="progress" style="width: 100%">Completed</div>
+                        {:else}
+                            <div class="progress" style="width: 0%">Incomplete</div>
+                        {/if}
+                        {/await}
+                      </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Write C++</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Use C++!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfReposUsingLanguage(tokenInput , 1, "C++", oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value}
+                        {#if value}
+                            <div class="progress" style="width: 100%">Completed</div>
+                        {:else}
+                            <div class="progress" style="width: 0%">Incomplete</div>
+                        {/if}
+                        {/await}
+                      </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Write C#</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Use C#!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfReposUsingLanguage(tokenInput , 1, "C#", oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value}
+                        {#if value}
+                            <div class="progress" style="width: 100%">Completed</div>
+                        {:else}
+                            <div class="progress" style="width: 0%">Incomplete</div>
+                        {/if}
+                        {/await}
+                      </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Write Go</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Use Go!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfReposUsingLanguage(tokenInput , 1, "Go", oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value}
+                        {#if value}
+                            <div class="progress" style="width: 100%">Completed</div>
+                        {:else}
+                            <div class="progress" style="width: 0%">Incomplete</div>
+                        {/if}
+                        {/await}
+                      </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Write Java</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Use Java!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfReposUsingLanguage(tokenInput , 1, "Java", oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value}
+                        {#if value}
+                            <div class="progress" style="width: 100%">Completed</div>
+                        {:else}
+                            <div class="progress" style="width: 0%">Incomplete</div>
+                        {/if}
+                        {/await}
+                      </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Write PHP</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Use PHP!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfReposUsingLanguage(tokenInput , 1, "PHP", oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value}
+                        {#if value}
+                            <div class="progress" style="width: 100%">Completed</div>
+                        {:else}
+                            <div class="progress" style="width: 0%">Incomplete</div>
+                        {/if}
+                        {/await}
+                      </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Write Python</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Use Python!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfReposUsingLanguage(tokenInput , 1, "Python", oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value}
+                        {#if value}
+                            <div class="progress" style="width: 100%">Completed</div>
+                        {:else}
+                            <div class="progress" style="width: 0%">Incomplete</div>
+                        {/if}
+                        {/await}
+                      </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Write Ruby</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Use Ruby!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfReposUsingLanguage(tokenInput , 1, "Ruby", oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value}
+                        {#if value}
+                            <div class="progress" style="width: 100%">Completed</div>
+                        {:else}
+                            <div class="progress" style="width: 0%">Incomplete</div>
+                        {/if}
+                        {/await}
+                      </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Write Scala</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Use Scala!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfReposUsingLanguage(tokenInput , 1, "Scala", oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value}
+                        {#if value}
+                            <div class="progress" style="width: 100%">Completed</div>
+                        {:else}
+                            <div class="progress" style="width: 0%">Incomplete</div>
+                        {/if}
+                        {/await}
+                      </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Write Swift</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Use Swift!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfReposUsingLanguage(tokenInput , 1, "Swift", oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value}
+                        {#if value}
+                            <div class="progress" style="width: 100%">Completed</div>
+                        {:else}
+                            <div class="progress" style="width: 0%">Incomplete</div>
+                        {/if}
+                        {/await}
+                      </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Write TypeScript</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Use TypeScript!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfReposUsingLanguage(tokenInput , 1, "TypeScript", oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value}
+                        {#if value}
+                            <div class="progress" style="width: 100%">Completed</div>
+                        {:else}
+                            <div class="progress" style="width: 0%">Incomplete</div>
+                        {/if}
+                        {/await}
+                      </div>
+                </div>
+            </div>
         </CollapsibleSection>
     </div>
     {:else}
