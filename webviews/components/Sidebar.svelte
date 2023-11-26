@@ -13,6 +13,7 @@
     let medal = Medal
     let validatedToken = false;
     let invalidTokenRecieved = false;
+    let loggedOut = false;
     let tokenInput = "";
     let oldLoginName = "";
     let tagMap = new Map();
@@ -32,7 +33,7 @@
             switch (message.type) {
                 case 'at_token':
                     tokenInput = message.value;
-                    validateToken();
+                    validateToken("code");
                     break;
                 case 'login_name':
                     oldLoginName = message.value;
@@ -63,10 +64,14 @@
                             tag: '',
                             value:"at_token"
                         });
+                        loggedOut = true;
                         validatedToken=false;
     }
 
-    function validateToken() {
+    function validateToken(source:string) {
+        if(source=="button"){
+            loggedOut=false;
+        }
         if(!validatedToken){
             const instance = axios.create({
                 baseURL: "https://api.github.com/user",
@@ -369,11 +374,11 @@
     {void checkIfValidTokenExists() ?? ""}
         <div>
             <input type="text" bind:value={tokenInput}>
-            <button on:click={validateToken}>Submit Token</button>
+            <button on:click={() => validateToken("button")}>Submit Token</button>
         </div>
-    {#if invalidTokenRecieved}
+    {#if invalidTokenRecieved && !loggedOut}
         <div class="error-message">
-            <h2>The Token is not valid or has expired, please try again</h2>
+            <h2>No valid token found, please log in</h2>
         </div>
     {/if}
 {/if}
