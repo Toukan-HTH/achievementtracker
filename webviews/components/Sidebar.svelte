@@ -6,7 +6,11 @@
     import {achievementTags,
         getNumberOfCommits,
     getNumberOfRepos,
-    getNumberOfReposUsingLanguage} from './ScriptsRepository.svelte'
+    getNumberOfReposUsingLanguage,
+    getNumberOfFollowers,
+    getUserCollaboratorNumber,
+    getUserFollowage,
+    getUserForkedNumber} from './ScriptsRepository.svelte'
 
 
 
@@ -54,6 +58,7 @@
     })
 
     function calcPercentage(x:number, y:number, fixed = 2) {
+        if(x==0 || y==0){return 0}
         const percent = (x / y) * 100
         return percent.toFixed(fixed) ;
     }
@@ -338,11 +343,115 @@
             </div>
         </CollapsibleSection>
         <div class="separator"></div>
+
+
         <CollapsibleSection headerText={'Social'} >
             <div class="content">
-                    Look at all this fun content
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Obtain 5 followers on GitHub!</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Have 5 people follow you on github, making them able to better keep up to date with your progress!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfFollowers(tokenInput , 5, oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value} 
+                            <div class="progress" style="width: {calcPercentage(value,5)}%">{value}/5</div>
+                        {/await}
+                      </div>
+                </div>
+            </div>
+
+
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Collaborate on a repository!</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Be listed as a collaborator on atleast 1 repository</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getUserCollaboratorNumber(tokenInput , 1)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value} 
+                            <div class="progress" style="width: {calcPercentage(value,1)}%">{value}/1</div>
+                        {/await}
+                      </div>
+                </div>
+            </div>
+
+
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Collaborate on 5 Repositories!</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Be listed as a collaborator on atleast 5 Repositories</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getUserCollaboratorNumber(tokenInput , 5)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value} 
+                            <div class="progress" style="width: {calcPercentage(value,5)}%">{value}/5</div>
+                        {/await}
+                      </div>
+                </div>
+            </div>
+
+            
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Follow atleast 3 people</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Follow atleast 3 users on github to keep yourself up to date with the users contributions</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getUserFollowage(tokenInput , 3, oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value} 
+                            <div class="progress" style="width: {calcPercentage(value,3)}%">{value}/3</div>
+                        {/await}
+                      </div>
+                </div>
+            </div>
+
+
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Fork atleast 1 repository</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Fork a repository so that you can make your own changes on a existing codebase!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getUserForkedNumber(tokenInput , 1, oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value} 
+                            <div class="progress" style="width: {calcPercentage(value,1)}%">{value}/1</div>
+                        {/await}
+                      </div>
+                </div>
             </div>
         </CollapsibleSection>
+
+
         <div class="separator"></div>
         <CollapsibleSection headerText={'Knowledge'} >
             <div class="content">

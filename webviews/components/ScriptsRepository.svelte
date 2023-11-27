@@ -150,4 +150,100 @@
         let repoNames: string[] = await getAllRepos(instance);
         return calculateNumberOfReposUsingLanguage(repoNames,upperLimit,language,token,user,instance);
     }
+
+    export async function getNumberOfFollowers(token:string, upperLimit:number, user:string) {
+        const instance = axios.create({
+                headers: {"Authorization":'Bearer '+ token}
+            });
+        var bar = new Promise<number>(async (resolve,reject) => {
+            // find out if repo with name x uses language y
+            const languageListPerRepo =  await instance.get("https://api.github.com/users/"+user).then(async(response:AxiosResponse<{followers:number}>)=>{
+                    if(response.status==200){
+                        if(response.data.followers>=upperLimit){
+                            resolve(upperLimit);
+                        }else{
+                            resolve(response.data.followers);
+                        }
+                    }
+                }).catch((error) => {
+
+                })
+        })
+        return bar;
+    }
+
+    export async function getUserCollaboratorNumber(token:string, upperLimit:number) {
+        const instance = axios.create({
+                headers: {"Authorization":'Bearer '+ token}
+            });
+        var bar = new Promise<number>(async (resolve,reject) => {
+            // find out if repo with name x uses language y
+            const languageListPerRepo =  await instance.get("https://api.github.com/user/repos?affiliation=collaborator").then(async(response:AxiosResponse<[{id:number}]>)=>{
+                    if(response.status==200){
+                        if(response.data.length>=upperLimit){
+                            resolve(upperLimit);
+                        }else{
+                            resolve(response.data.length);
+                        }
+                    }else{
+                        resolve(0);
+                    }
+                }).catch((error) => {
+                    resolve(0);
+                })
+        })
+        return bar;
+    }
+
+    export async function getUserFollowage(token:string, upperLimit:number, user:string) {
+        const instance = axios.create({
+                headers: {"Authorization":'Bearer '+ token}
+            });
+        var bar = new Promise<number>(async (resolve,reject) => {
+            // find out if repo with name x uses language y
+            const languageListPerRepo =  await instance.get("https://api.github.com/users/" + user + "/following").then(async(response:AxiosResponse<[]>)=>{
+                    if(response.status==200){
+                        if(response.data.length>=upperLimit){
+                            resolve(upperLimit);
+                        }else{
+                            resolve(response.data.length);
+                        }
+                    }else{
+                        resolve(0);
+                    }
+                }).catch((error) => {
+                    resolve(0);
+                })
+        })
+        return bar;
+    }
+
+
+    export async function getUserForkedNumber(token:string, upperLimit:number, user:string) {
+        let localHoldValue = 0;
+        const instance = axios.create({
+                headers: {"Authorization":'Bearer '+ token}
+            });
+        var bar = new Promise<number>(async (resolve,reject) => {
+            // find out if repo with name x uses language y
+            const languageListPerRepo =  await instance.get("https://api.github.com/users/" + user + "/repos").then(async(response:AxiosResponse<[{forks:number}]>)=>{
+                    if(response.status==200){
+                        response.data.forEach(element => {
+                            localHoldValue += element.forks;
+                            if(localHoldValue>=upperLimit){
+                                resolve(upperLimit);
+                            }
+                            if(element === response.data[response.data.length-1]){
+                                resolve(localHoldValue);
+                            }
+                        });
+                    }else{
+                        resolve(0);
+                    }
+                }).catch((error) => {
+                    resolve(0);
+                })
+        })
+        return bar;
+    }
 </script>
