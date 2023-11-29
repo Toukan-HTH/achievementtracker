@@ -246,4 +246,85 @@
         })
         return bar;
     }
+
+    export async function getNumberOfIssuesCreated(token:string, upperLimit:number) {
+        let localHoldValue = 0;
+        const instance = axios.create({
+                headers: {"Authorization":'Bearer '+ token}
+            });
+        var bar = new Promise<number>(async (resolve,reject) => {
+            // find out if repo with name x uses language y
+            const languageListPerRepo =  await instance.get("https://api.github.com/issues?state=all").then(async(response:AxiosResponse<[{state:string}]>)=>{
+                    if(response.status==200){
+                        response.data.forEach(element => {
+                            localHoldValue += 1;
+                            if(localHoldValue>=upperLimit){
+                                resolve(upperLimit);
+                            }
+                            if(element === response.data[response.data.length-1]){
+                                resolve(localHoldValue);
+                            }
+                        });
+                    }else{
+                        resolve(0);
+                    }
+                }).catch((error) => {
+                    resolve(0);
+                })
+        })
+        return bar;
+    }
+
+    export async function getNumberOfCompletedIssues(token:string, upperLimit:number, login:string) {
+        let localHoldValue = 0;
+        const instance = axios.create({
+                headers: {"Authorization":'Bearer '+ token}
+            });
+        var bar = new Promise<number>(async (resolve,reject) => {
+            // find out if repo with name x uses language y
+            const languageListPerRepo =  await instance.get("https://api.github.com/issues?state=closed").then(async(response:AxiosResponse<[{state:string,assignee:{login:string}}]>)=>{
+                    if(response.status==200){
+                        response.data.forEach(element => {
+                            if(element.state=="closed" && element.assignee.login==login){
+                                localHoldValue++;
+                            }
+                            if(localHoldValue>=upperLimit){
+                                resolve(upperLimit);
+                            }
+                            if(element === response.data[response.data.length-1]){
+                                resolve(localHoldValue);
+                            }
+                        });
+                    }else{
+                        resolve(0);
+                    }
+                }).catch((error) => {
+                    resolve(0);
+                })
+        })
+        return bar;
+    }
+
+    export async function getNumberOfPullRequestsClosed(token:string, upperLimit:number, login:string) {
+        const instance = axios.create({
+                headers: {"Authorization":'Bearer '+ token}
+            });
+        var bar = new Promise<number>(async (resolve,reject) => {
+            // find out if repo with name x uses language y
+            const languageListPerRepo =  await instance.get("https://api.github.com/search/issues?q=author:"+login+"+type:pr+is:closed").then(async(response:AxiosResponse<{total_count:number}>)=>{
+                    if(response.status==200){
+                        if(response.data.total_count>=upperLimit){
+                            resolve(upperLimit);
+                        }else{
+                            resolve(response.data.total_count);
+                        }
+                    }else{
+                        resolve(0);
+                    }
+                }).catch((error) => {
+                    resolve(0);
+                })
+        })
+        return bar;        
+    }
 </script>

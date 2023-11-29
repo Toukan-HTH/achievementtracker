@@ -10,7 +10,10 @@
     getNumberOfFollowers,
     getUserCollaboratorNumber,
     getUserFollowage,
-    getUserForkedNumber} from './ScriptsRepository.svelte'
+    getUserForkedNumber,
+    getNumberOfIssuesCreated,
+    getNumberOfCompletedIssues,
+    getNumberOfPullRequestsClosed} from './ScriptsRepository.svelte'
 
 
 
@@ -341,6 +344,71 @@
                       </div>
                 </div>
             </div>
+
+
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Create a issue</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Create your very first github issue!</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfIssuesCreated(tokenInput , 1)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value} 
+                            <div class="progress" style="width: {calcPercentage(value,1)}%">{value}/1</div>
+                        {/await}
+                      </div>
+                </div>
+            </div>
+
+
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Close 5 issues</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Have atleast 5 issues that was assigned to you be closed as completed</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfCompletedIssues(tokenInput , 5, oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value} 
+                            <div class="progress" style="width: {calcPercentage(value,5)}%">{value}/5</div>
+                        {/await}
+                      </div>
+                </div>
+            </div>
+
+
+            <div class="content">
+                <div class="top-row">
+                    <div class="icon"><svelte:component this={medal} /></div>
+                    <h2 class="title">Have a pull request you created be closed</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">Have a pull request you created be resolved as such it gets tagged as closed</h4>
+                    <div class="check-box"></div>
+                </div>
+                <div class="bottom-row">
+                    <div class="progress-container">
+                        {#await getNumberOfPullRequestsClosed(tokenInput , 1, oldLoginName)}
+                        <div class="progress" style="width: 0%">Fetching...</div>
+                        {:then value} 
+                            <div class="progress" style="width: {calcPercentage(value,1)}%">{value}/1</div>
+                        {/await}
+                      </div>
+                </div>
+            </div>
+
+
         </CollapsibleSection>
         <div class="separator"></div>
 
