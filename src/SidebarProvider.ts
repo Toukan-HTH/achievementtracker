@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { getNonce } from "./GetNonce";
-
+import {run} from "./AchievementTest"
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
@@ -24,6 +24,17 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     webviewView.webview.onDidReceiveMessage(async (data) => {
       switch (data.type) {
+
+        case "testAchievement":{
+          console.log("recieved message, type is: " + data.type);
+          await run();
+          webviewView.webview.postMessage({
+            type:data.type,
+            value: data.value,
+          });
+        }
+
+
         case "saveData":{
           if(data.tag=="at_token"){
             await this._secretStorage.store("at_token",data.value);

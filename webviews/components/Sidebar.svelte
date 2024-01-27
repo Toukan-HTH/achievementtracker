@@ -19,9 +19,11 @@
 
             // switch incase we ever need to add specific types that should be handled different
             switch (message.type) {
-
+                case(message.type == "testAchievement"):{
+                    console.log(message.value)
+                }
             }
-            console.log("Recieved Message in webview, value is: " + message.value);
+            //console.log("Recieved Message in webview, value is: " + message.value);
         });
 
         
@@ -29,7 +31,16 @@
     })
 
     function test(){
-        console.log("test");
+        try {
+            tsvscode.postMessage({
+                type:"testAchievement",
+                tag:"test_1",
+                value:"123"
+            });
+        } catch (error) {
+            
+        }
+        //console.log("test");
     }
 
 

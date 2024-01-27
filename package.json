@@ -78,6 +78,8 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "axios": "^1.6.0"
+    "axios": "^1.6.0",
+    "util": "^0.12.5",
+    "util.promisify": "^1.1.2"
   }
 }
