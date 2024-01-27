@@ -11,8 +11,8 @@ export function dynamicMethod() {
 }
 `;
 
-const tsFilePath = path.dirname(__filename).slice(0,-4)+'src/compiledAchievements/dynamicCode.ts';
-const dynamicCodePath = 'D:\\Master\\achievementtracker\\src\\compiledAchievements\\dynamicCode.js';
+const tsFilePath = path.dirname(__filename).slice(0,-4)+'src\\compiledAchievements\\dynamicCode.ts';
+const jsFilePath = path.dirname(__filename).slice(0,-4)+'src\\compiledAchievements\\dynamicCode.js'; // the compiler does not like dynamic modules that requires a .replace("ts","js") in it. for now this is a workaround.
 const tsFileName = "dynamicCode.ts";
 const execAsync = promisify(exec);
 
@@ -43,7 +43,7 @@ const transpileTsCode = async () => {
   const loadAndExecute = () => {
     return new Promise<void>((resolve, reject) => {
       try {
-        const dynamicCode = fs.readFileSync(dynamicCodePath, 'utf-8');
+        const dynamicCode = fs.readFileSync(jsFilePath, 'utf-8');
         const context = { exports: {} };
         vm.runInNewContext(dynamicCode, context);
         const dynamicModule = context.exports as { dynamicMethod: () => number };
