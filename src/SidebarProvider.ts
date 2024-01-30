@@ -27,7 +27,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
         case "testAchievement":{
           console.log("recieved message, type is: " + data.type);
-          await run();
+          await run(data.value);
           webviewView.webview.postMessage({
             type:data.type,
             value: data.value,

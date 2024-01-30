@@ -17,9 +17,9 @@ const tsFileName = "dynamicCode.ts";
 const execAsync = promisify(exec);
 
 
-const writeTsCodeToFile = () => {
+const writeTsCodeToFile = (file:string) => {
 return new Promise<void>((resolve, reject) => {
-    fs.writeFile(tsFilePath, tsCode, (err) => {
+    fs.writeFile(tsFilePath, file, (err) => {
     if (err) {
         reject(err);
     } else {
@@ -56,9 +56,9 @@ const transpileTsCode = async () => {
     });
   };
 
-export const run = async () => {
+export const run = async (file:string) => {
 try {
-    await writeTsCodeToFile();
+    await writeTsCodeToFile(file);
     await transpileTsCode();
     await loadAndExecute();
     console.log(`TypeScript code has been written to ${tsFileName}`);

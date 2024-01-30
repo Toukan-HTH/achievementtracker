@@ -35,7 +35,12 @@
             tsvscode.postMessage({
                 type:"testAchievement",
                 tag:"test_1",
-                value:"123"
+                value:`
+                    export function dynamicMethod() {
+                        console.log("Hello from dynamic method!");
+                        return 8;
+                    }
+                    `
             });
         } catch (error) {
             

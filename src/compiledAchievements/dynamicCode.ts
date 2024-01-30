@@ -1,5 +1,6 @@
 
-export function dynamicMethod() {
-    console.log("Hello from dynamic method!");
-    return 1;
-}
+                    export function dynamicMethod() {
+                        console.log("Hello from dynamic method!");
+                        return 8;
+                    }
+                    
