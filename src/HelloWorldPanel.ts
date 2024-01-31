@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { getNonce } from "./GetNonce";
-
+import {run} from "./AchievementTest"
 
 export class HelloWorldPanel {
   /**
@@ -13,6 +13,14 @@ export class HelloWorldPanel {
   private readonly _panel: vscode.WebviewPanel;
   private readonly _extensionUri: vscode.Uri;
   private _disposables: vscode.Disposable[] = [];
+
+  public static sendMessage(message:string){
+    console.log("were in the helloworldpanel file");
+    HelloWorldPanel.currentPanel?._panel.webview.postMessage({
+      type:"loadPanel",
+      value: message,
+    });
+  }
 
   public static createOrShow(extensionUri: vscode.Uri) {
     const column = vscode.window.activeTextEditor

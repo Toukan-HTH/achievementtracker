@@ -4,6 +4,7 @@ import { exec } from 'child_process';
 import { promisify } from 'util';
 import * as vm from 'vm';
 
+
 const tsCode = `
 export function dynamicMethod() {
     console.log("Hello from dynamic method!");
@@ -62,6 +63,7 @@ try {
     await transpileTsCode();
     await loadAndExecute();
     console.log(`TypeScript code has been written to ${tsFileName}`);
+
 } catch (err) {
     console.error('Error:', (err as Error).message);
 }

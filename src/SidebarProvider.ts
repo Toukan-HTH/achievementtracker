@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { getNonce } from "./GetNonce";
 import {run} from "./AchievementTest"
+import { HelloWorldPanel } from "./HelloWorldPanel";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
@@ -27,11 +28,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
         case "testAchievement":{
           console.log("recieved message, type is: " + data.type);
-          await run(data.value);
-          webviewView.webview.postMessage({
-            type:data.type,
-            value: data.value,
-          });
+          HelloWorldPanel.createOrShow(this._context.extensionUri);
+          HelloWorldPanel.sendMessage("99922");
         }
 
 
