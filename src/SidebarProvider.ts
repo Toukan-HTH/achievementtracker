@@ -11,6 +11,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   constructor(private readonly _extensionUri: vscode.Uri,private _context: vscode.ExtensionContext,) {		this._secretStorage = this._context.secrets;
 }
 
+
+  public sendMessage(_type:string,_value:Number){
+    this._view?.webview.postMessage({
+      type:_type,
+      value: _value.toString,
+    });
+  }
   public resolveWebviewView(webviewView: vscode.WebviewView) {
     this._view = webviewView;
 
@@ -28,7 +35,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
         case "testAchievement":{
           console.log("recieved message, type is: " + data.type);
-          HelloWorldPanel.createOrShow(this._context.extensionUri);
+          HelloWorldPanel.createOrShow(this._context.extensionUri,this);
           HelloWorldPanel.sendMessage("99922");
         }
 
@@ -76,6 +83,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
           return;
         }
+
 
         case "onInfo": {
           if (!data.value) {

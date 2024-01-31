@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { getNonce } from "./GetNonce";
 import {run} from "./AchievementTest"
+import { SidebarProvider } from "./SidebarProvider";
 
 export class HelloWorldPanel {
   /**
@@ -13,6 +14,7 @@ export class HelloWorldPanel {
   private readonly _panel: vscode.WebviewPanel;
   private readonly _extensionUri: vscode.Uri;
   private _disposables: vscode.Disposable[] = [];
+  private provider: SidebarProvider;
 
   public static sendMessage(message:string){
     console.log("were in the helloworldpanel file");
@@ -22,7 +24,13 @@ export class HelloWorldPanel {
     });
   }
 
-  public static createOrShow(extensionUri: vscode.Uri) {
+  private updateSidebarProvider(_id:Number, _result:boolean){
+    if(_result){
+      this.provider.sendMessage("updateAchievement",_id);
+    }
+  }
+
+  public static createOrShow(extensionUri: vscode.Uri, provider:SidebarProvider) {
     const column = vscode.window.activeTextEditor
       ? vscode.window.activeTextEditor.viewColumn
       : undefined;
@@ -51,7 +59,7 @@ export class HelloWorldPanel {
       }
     );
 
-    HelloWorldPanel.currentPanel = new HelloWorldPanel(panel, extensionUri);
+    HelloWorldPanel.currentPanel = new HelloWorldPanel(panel, extensionUri,provider);
   }
 
   public static kill() {
@@ -59,13 +67,14 @@ export class HelloWorldPanel {
     HelloWorldPanel.currentPanel = undefined;
   }
 
-  public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-    HelloWorldPanel.currentPanel = new HelloWorldPanel(panel, extensionUri);
+  public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri,provider:SidebarProvider) {
+    HelloWorldPanel.currentPanel = new HelloWorldPanel(panel, extensionUri,provider);
   }
 
-  private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
+  private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri,provider:SidebarProvider) {
     this._panel = panel;
     this._extensionUri = extensionUri;
+    this.provider = provider;
 
     // Set the webview's initial html content
     this._update();
@@ -122,6 +131,10 @@ export class HelloWorldPanel {
           vscode.window.showErrorMessage(data.value);
           break;
         }
+        case "testAchievement": {
+          console.log("in helloworld panel")
+          this.updateSidebarProvider(1,true);
+        }
         // case "tokens": {
         //   await Util.globalState.update(accessTokenKey, data.accessToken);
         //   await Util.globalState.update(refreshTokenKey, data.refreshToken);
@@ -171,6 +184,7 @@ export class HelloWorldPanel {
         <link href="${stylesResetUri}" rel="stylesheet">
         <link href="${stylesMainUri}" rel="stylesheet">
         <script nonce="${nonce}">
+          const tsvscode = acquireVsCodeApi();
         </script>
 			</head>
         <body>

@@ -6,7 +6,7 @@
 
 
 
-
+    let simulatedCompleted = false;
     let medal = Medal
 
     onMount(() =>{
@@ -21,6 +21,11 @@
             switch (message.type) {
                 case(message.type == "testAchievement"):{
                     console.log(message.value)
+                }
+                case "updateAchievement":{
+                    console.log("Sidebar webview recieved message about achievement id: " + message.value);
+                    //logic to find the achievement and update it to finished, etc etc
+                    simulatedCompleted = true;
                 }
             }
             //console.log("Recieved Message in webview, value is: " + message.value);
@@ -156,16 +161,23 @@
         <div class="content">
             <div class="top-row">
                 <div class="icon"><svelte:component this={medal} /></div>
-                <h2 class="title">Commit 500 lines</h2>
+                <h2 class="title">Make your first function</h2>
             </div>
             <div class="middle-row">
-                <h4 class="description">Commit 500 lines of code to your github account</h4>
+                <h4 class="description">Create any type of function with the return type of null and name as dynamicMethod</h4>
                 <div class="check-box"></div>
             </div>
             <div class="bottom-row">
-                <div class="progress-container">
-                    <div class="progress" style="width: 0%">Fetching...</div>
+                {#if simulatedCompleted}
+                    <div class="progress-container">
+                        <div class="progress" style="width: 100%">Completed</div>
                     </div>
+                {:else}
+                    <div class="progress-container">
+                        <div class="progress" style="width: 0%"></div>
+                    </div>
+                {/if}
+
             </div>
         </div>
     </CollapsibleSection>
