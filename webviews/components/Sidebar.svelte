@@ -166,6 +166,7 @@
             <div class="middle-row">
                 <h4 class="description">Create any type of function with the return type of null and name as dynamicMethod</h4>
                 <div class="check-box"></div>
+                <button on:click={test}>Try</button>
             </div>
             <div class="bottom-row">
                 {#if simulatedCompleted}
