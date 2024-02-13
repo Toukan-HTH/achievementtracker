@@ -7,4 +7,5 @@ export type AchievementPrimitive = {
     id:number,
     creator:string,
     title:string,
+    completed:boolean
 }

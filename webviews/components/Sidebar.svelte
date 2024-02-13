@@ -35,18 +35,13 @@
 
     })
 
-    function test(){
+    function test(id:number){
         console.log(achievements[0]);
         try {
             tsvscode.postMessage({
                 type:"testAchievement",
-                tag:"test_1",
-                value:`
-                    export function dynamicMethod() {
-                        console.log("Hello from dynamic method!");
-                        return 8;
-                    }
-                    `
+                tag:"test",
+                value:id.toString()
             });
         } catch (error) {
             
@@ -184,7 +179,7 @@
 
 <div class="wrapper">
     <div class="header">
-        <button on:click={test}>Manage</button>
+        <button >Manage</button>
     </div>
     
     <CollapsibleSection headerText={'Achievements'}>
@@ -194,7 +189,7 @@
                 <div class="icon"><svelte:component this={medal} /></div>
                 <h2 class="title">{achievement.title}</h2>
                 <div class="button-div">
-                    <button class="tryButton" on:click={test}>!</button>
+                    <button class="tryButton" on:click={() => test(achievement.id)}>!</button>
                 </div>
                 <h2 class="difficultyRank">{achievement.difficultyRating}</h2>
             </div>
@@ -203,7 +198,7 @@
                 <div class="check-box"></div>
             </div>
             <div class="bottom-row">
-                {#if simulatedCompleted}
+                {#if achievement.completed}
                     <div class="progress-container">
                         <div class="progress" style="width: 100%">Completed</div>
                     </div>

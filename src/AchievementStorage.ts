@@ -20,7 +20,8 @@ difficultyRating : 1, // when creating the achievement, put a difficulty rating 
 description : `write a function that converts inches to centimeter, required signature of the function is solve(inches:number):number`, // description on the achievement task
 id:0,
 title:`Inches to centimeters`,
-creator:`Henrik T.H`,}),
+creator:`Henrik T.H`,
+completed:false,}),
 
 new Achievement({    generationFunction : `export function generate():number {
     return Math.floor(Math.random() * (100 - 1 + 1)) + 1;
@@ -49,7 +50,8 @@ difficultyRating : 1, // when creating the achievement, put a difficulty rating 
 description : `write a function that returns if the a number is a prime number as true, and if not returns false. the function signature must be solve(x:number):boolean`, // description on the achievement task
 id:1,
 title:`Is that a prime?`,
-creator:`Henrik T.H`,}),
+creator:`Henrik T.H`,
+completed:false,}),
 
 new Achievement({    generationFunction : `export function generate(x:boolean):number[][] {
     if(x){
@@ -100,7 +102,8 @@ difficultyRating : 3, // when creating the achievement, put a difficulty rating 
 description : `given two matrixes, write a function that multiplies them and returns the result. the function signature must be solve(x:number[][], y:number[][]):number[][]`, // description on the achievement task
 id:2,
 title:`Multiply Matrices`,
-creator:`Henrik T.H`,}),
+creator:`Henrik T.H`,
+completed:false,}),
 
 /*
 new Achievement({    generationFunction : ``, // function to generate valid input for the validation function and the user input function
@@ -110,6 +113,7 @@ difficultyRating : 0, // when creating the achievement, put a difficulty rating 
 description : ``, // description on the achievement task
 id:3,
 title:``,
-creator:``,})*/];
+creator:``,
+completed:false,})*/];
 
 export {achievements};

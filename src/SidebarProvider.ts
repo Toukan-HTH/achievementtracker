@@ -36,7 +36,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         case "testAchievement":{
           console.log("recieved message, type is: " + data.type);
           HelloWorldPanel.createOrShow(this._context.extensionUri,this);
-          HelloWorldPanel.sendMessage("99922");
+          HelloWorldPanel.sendMessage(data.value);
         }
 
 

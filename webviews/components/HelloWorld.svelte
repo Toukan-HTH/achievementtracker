@@ -3,8 +3,15 @@
     import AceEditor from "./AceEditor.svelte";
     import "brace/mode/json";
     import "brace/theme/chrome";
+    import {achievements} from "../../src/testingenv";
+
     let _achievementID = 0;
     let text = "";
+    let title = "";
+    let creator = "";
+    let description = "";
+    let difficultyRating = 0;
+
     
     onMount(() =>{
 
@@ -17,7 +24,10 @@
             switch (message.type) {
                 case"loadPanel":{
                     _achievementID=message.value
-                    
+                    title = achievements.filter((achievement) => achievement.id==_achievementID)[0].title;
+                    creator = achievements.filter((achievement) => achievement.id==_achievementID)[0].creator;
+                    description = achievements.filter((achievement) => achievement.id==_achievementID)[0].description;
+                    difficultyRating = achievements.filter((achievement) => achievement.id==_achievementID)[0].difficultyRating;
                 }
             }
             //console.log("Recieved Message in webview, value is: " + message.value);
@@ -39,7 +49,10 @@ function submit(){
 </script>
 
 <h2>{_achievementID}</h2>
-
+<h2>{creator}</h2>
+<h2>{description}</h2>
+<h2>{difficultyRating}</h2>
+<h2>{title}</h2>
 <div>
 <AceEditor
   on:selectionChange={(obj) => console.log(obj.detail)}
