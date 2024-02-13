@@ -19,9 +19,6 @@ export class Achievement{
         this.tsFileName = 'dynamicCode'+this.achievement.id+'.js';
     }
 
-    getSalary() : number {
-        return 2;
-    }
 
 
     writeTsCodeToFile = async (file:string) => {

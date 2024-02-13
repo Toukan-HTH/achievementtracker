@@ -3,7 +3,7 @@
     import CollapsibleSection from './CollapsibleSection.svelte'
     import Medal from './Medal.svelte'
     import axios, {isCancel, AxiosError, type AxiosResponse} from 'axios';
-
+    import {achievements} from "../../src/testingenv";
 
 
     let simulatedCompleted = false;
@@ -36,6 +36,7 @@
     })
 
     function test(){
+        console.log(achievements[0]);
         try {
             tsvscode.postMessage({
                 type:"testAchievement",
@@ -67,6 +68,27 @@
         color:#fff;
     }
 
+    .difficultyRank{
+        color: rgb(81, 255, 0);
+        overflow: hidden;
+    }
+
+    .tryButton{
+        height: 15px;
+        width: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border:1px solid black;
+    }
+
+    .button-div{
+        margin:5px;
+        height: 100%;
+        display: flex;
+        align-self: flex-start;
+        overflow: hidden;
+    }
     .separator{
         height:2px;
         width:100%;
@@ -87,6 +109,11 @@
     }
     .description{
         color: #868686;
+        max-height: 50px;
+        width: 100%;
+        overflow: hidden;
+        white-space: wrap;
+        text-overflow: ellipsis;
     }
     .top-row{
         display: inline-flex;
@@ -109,7 +136,8 @@
         margin-right: 5px;
     }
     .icon{
-        width:10%;
+        height:28px;
+        width:23px;
         margin-right: 2px;
         border:1px solid #fff;
         justify-content: center;
@@ -120,6 +148,8 @@
     }
     .title{
         width:90%;
+        font-size: 2vh;
+        overflow: hidden;
     }
     .progress-container {
       height: 3px;
@@ -157,16 +187,20 @@
         <button on:click={test}>Manage</button>
     </div>
     
-    <CollapsibleSection headerText={'Personal'}>
+    <CollapsibleSection headerText={'Achievements'}>
+        {#each achievements as achievement}
         <div class="content">
             <div class="top-row">
                 <div class="icon"><svelte:component this={medal} /></div>
-                <h2 class="title">Make your first function</h2>
+                <h2 class="title">{achievement.title}</h2>
+                <div class="button-div">
+                    <button class="tryButton" on:click={test}>!</button>
+                </div>
+                <h2 class="difficultyRank">{achievement.difficultyRating}</h2>
             </div>
             <div class="middle-row">
-                <h4 class="description">Create any type of function with the return type of null and name as dynamicMethod</h4>
+                <h4 class="description">{achievement.description}</h4>
                 <div class="check-box"></div>
-                <button on:click={test}>Try</button>
             </div>
             <div class="bottom-row">
                 {#if simulatedCompleted}
@@ -181,5 +215,7 @@
 
             </div>
         </div>
+        {/each}
+
     </CollapsibleSection>
 </div>

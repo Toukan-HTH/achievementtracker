@@ -23,6 +23,12 @@ export default fs
         format: "iife",
         name: "app",
         file: "out/compiled/" + name + ".js",
+        globals:{
+          fs:'fs',
+          child_process:'child_process',
+          util:'util',
+          vm:'vm'
+        }
       },
       plugins: [
         svelte({

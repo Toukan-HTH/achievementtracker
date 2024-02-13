@@ -18,11 +18,6 @@ export function activate(context: vscode.ExtensionContext) {
 	  )
 	);
 
-	context.subscriptions.push(
-		vscode.commands.registerCommand('achievementtracker.helloWorld', () => {
-		vscode.window.showInformationMessage('Hello World2 from achievementtracker!');
-		HelloWorldPanel.createOrShow(context.extensionUri);
-	}));
 }
 
 export function deactivate() {}

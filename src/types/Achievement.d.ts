@@ -5,4 +5,6 @@ export type AchievementPrimitive = {
     difficultyRating : number, // when creating the achievement, put a difficulty rating on it for easier sorting
     description : string, // description on the achievement task
     id:number,
+    creator:string,
+    title:string,
 }
