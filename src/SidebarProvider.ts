@@ -12,10 +12,11 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 }
 
 
-  public sendMessage(_type:string,_value:Number){
+  public sendMessage(_type:string,_id:number){
+    console.log("in sidebarprovider, recieved id is: " + _id);
     this._view?.webview.postMessage({
       type:_type,
-      value: _value.toString,
+      value: _id.toString(),
     });
   }
   public resolveWebviewView(webviewView: vscode.WebviewView) {

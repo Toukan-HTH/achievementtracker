@@ -5,8 +5,7 @@
     import axios, {isCancel, AxiosError, type AxiosResponse} from 'axios';
     import {achievements} from "../../src/testingenv";
 
-
-    let simulatedCompleted = false;
+    let localAchievements = achievements;
     let medal = Medal
 
     onMount(() =>{
@@ -25,7 +24,8 @@
                 case "updateAchievement":{
                     console.log("Sidebar webview recieved message about achievement id: " + message.value);
                     //logic to find the achievement and update it to finished, etc etc
-                    simulatedCompleted = true;
+                    localAchievements[+message.value].completed=true;
+                    console.log(localAchievements[0]);
                 }
             }
             //console.log("Recieved Message in webview, value is: " + message.value);
@@ -183,7 +183,7 @@
     </div>
     
     <CollapsibleSection headerText={'Achievements'}>
-        {#each achievements as achievement}
+        {#each localAchievements as achievement}
         <div class="content">
             <div class="top-row">
                 <div class="icon"><svelte:component this={medal} /></div>

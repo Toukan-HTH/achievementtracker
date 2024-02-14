@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { getNonce } from "./GetNonce";
 import {run} from "./AchievementTest"
 import { SidebarProvider } from "./SidebarProvider";
+import {achievements} from "./AchievementStorage";
 
 export class HelloWorldPanel {
   /**
@@ -24,7 +25,8 @@ export class HelloWorldPanel {
     });
   }
 
-  private updateSidebarProvider(_id:Number, _result:boolean){
+  private updateSidebarProvider(_id:number, _result:boolean){
+    console.log("in hellowrold panel too, id is:" + _id + " boolean is : " + _result);
     if(_result){
       this.provider.sendMessage("updateAchievement",_id);
     }
@@ -132,8 +134,9 @@ export class HelloWorldPanel {
           break;
         }
         case "testAchievement": {
-          console.log("in helloworld panel")
-          this.updateSidebarProvider(1,true);
+          console.log("in helloworld panel, id is: " + data.tag);
+          //this.updateSidebarProvider(+data.tag,true);
+          this.updateSidebarProvider(+data.tag,await achievements.filter((achievement) => achievement.achievement.id==+data.tag)[0].run(data.value))
         }
         // case "tokens": {
         //   await Util.globalState.update(accessTokenKey, data.accessToken);
@@ -165,6 +168,9 @@ export class HelloWorldPanel {
     const cssUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "out", "compiled/swiper.css")
     );
+    const styleVSCodeUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "out/compiled", "HelloWorld.css")
+    );
 
     // Use a nonce to only allow specific scripts to be run
     const nonce = getNonce();
@@ -182,6 +188,7 @@ export class HelloWorldPanel {
     }; script-src 'nonce-${nonce}';">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="${stylesResetUri}" rel="stylesheet">
+        <link href="${styleVSCodeUri}" rel="stylesheet">
         <link href="${stylesMainUri}" rel="stylesheet">
         <script nonce="${nonce}">
           const tsvscode = acquireVsCodeApi();

@@ -14,8 +14,8 @@ export class Achievement{
     tsFileName : string;
     constructor(s : AchievementPrimitive){
         this.achievement = s;
-        this.tsFilePath = path.dirname(__filename).slice(0,-4)+'\\src\\compiledAchievements\\dynamicCode'+this.achievement.id+'.ts';
-        this.jsFilePath = path.dirname(__filename).slice(0,-4)+'\\src\\compiledAchievements\\dynamicCode'+this.achievement.id+'.js'; // the compiler does not like dynamic modules that 
+        this.tsFilePath = path.dirname(__filename).slice(0,-4)+'src\\compiledAchievements\\dynamicCode'+this.achievement.id+'.ts';
+        this.jsFilePath = path.dirname(__filename).slice(0,-4)+'src\\compiledAchievements\\dynamicCode'+this.achievement.id+'.js'; // the compiler does not like dynamic modules that 
         this.tsFileName = 'dynamicCode'+this.achievement.id+'.js';
     }
 
@@ -42,30 +42,31 @@ export class Achievement{
     };
 
     loadAndExecute = () => {
-        return new Promise<void>((resolve, reject) => {
+        return new Promise<boolean>((resolve, reject) => {
           try {
             const dynamicCode = fs.readFileSync(this.jsFilePath, 'utf-8');
             const context = { exports: {} };
             vm.runInNewContext(dynamicCode, context);
             const dynamicModule = context.exports as { compare: () => boolean };
-            console.log(dynamicModule.compare());
     
-            resolve();
+            resolve(dynamicModule.compare());
           } catch (err) {
-            reject(err);
+            console.log(err);
+            reject(false);
           }
         });
       };
 
-    run = async (file:string) => {
+    run = async (file:string):Promise<boolean> => {
         try {
             await this.writeTsCodeToFile(file+ "\n" + this.achievement.generationFunction + "\n" + this.achievement.validationFunction + "\n" + this.achievement.compareFunction);
             await this.transpileTsCode();
-            await this.loadAndExecute();
+            const result = await this.loadAndExecute();
             console.log(`TypeScript code has been written to ${this.tsFileName}`);
-        
+            return result;
         } catch (err) {
             console.error('Error:', (err as Error).message);
+            return false;
         }
     };
 }
