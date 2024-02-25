@@ -40,7 +40,7 @@
         try {
             tsvscode.postMessage({
                 type:"testAchievement",
-                tag:"test",
+                tag:"HelloWorld",
                 value:id.toString()
             });
         } catch (error) {
@@ -49,6 +49,19 @@
         //console.log("test");
     }
 
+
+    function openManagePanel(){
+        console.log("Opening manage panel...");
+        try {
+            tsvscode.postMessage({
+                type:"testAchievement",
+                tag:"ManagePage",
+                value:""
+            });
+        } catch (error) {
+            
+        }
+    }
 
 
 
@@ -179,7 +192,7 @@
 
 <div class="wrapper">
     <div class="header">
-        <button >Manage</button>
+        <button on:click={() => openManagePanel()} >Manage</button>
     </div>
     
     <CollapsibleSection headerText={'Achievements'}>

@@ -1,8 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import AceEditor from "./AceEditor.svelte";
-    import "brace/mode/json";
-    import "brace/theme/chrome";
     import {achievements} from "../../src/testingenv";
 
     let _achievementID = 0;

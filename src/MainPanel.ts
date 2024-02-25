@@ -4,11 +4,11 @@ import {run} from "./AchievementTest"
 import { SidebarProvider } from "./SidebarProvider";
 import {achievements} from "./AchievementStorage";
 
-export class HelloWorldPanel {
+export class MainPanel {
   /**
    * Track the currently panel. Only allow a single panel to exist at a time.
    */
-  public static currentPanel: HelloWorldPanel | undefined;
+  public static currentPanel: MainPanel | undefined;
 
   public static readonly viewType = "hello-world";
 
@@ -16,10 +16,11 @@ export class HelloWorldPanel {
   private readonly _extensionUri: vscode.Uri;
   private _disposables: vscode.Disposable[] = [];
   private provider: SidebarProvider;
+  static panelName: string;
 
   public static sendMessage(message:string){
-    console.log("were in the helloworldpanel file");
-    HelloWorldPanel.currentPanel?._panel.webview.postMessage({
+    console.log("were in the MainPanel file");
+    MainPanel.currentPanel?._panel.webview.postMessage({
       type:"loadPanel",
       value: message,
     });
@@ -32,22 +33,24 @@ export class HelloWorldPanel {
     }
   }
 
-  public static createOrShow(extensionUri: vscode.Uri, provider:SidebarProvider) {
+  public static createOrShow(extensionUri: vscode.Uri, provider:SidebarProvider, _panelName:string) {
+    console.log("creating "+ _panelName + " panel...");
+    MainPanel.panelName=_panelName;
     const column = vscode.window.activeTextEditor
       ? vscode.window.activeTextEditor.viewColumn
       : undefined;
 
     // If we already have a panel, show it.
-    if (HelloWorldPanel.currentPanel) {
-      HelloWorldPanel.currentPanel._panel.reveal(column);
-      HelloWorldPanel.currentPanel._update();
+    /*if (MainPanel.currentPanel) {
+      MainPanel.currentPanel._panel.reveal(column);
+      MainPanel.currentPanel._update();
       return;
-    }
+    }*/
 
     // Otherwise, create a new panel.
     const panel = vscode.window.createWebviewPanel(
-      HelloWorldPanel.viewType,
-      "HelloWorld",
+      MainPanel.viewType,
+      _panelName,
       column || vscode.ViewColumn.One,
       {
         // Enable javascript in the webview
@@ -61,16 +64,16 @@ export class HelloWorldPanel {
       }
     );
 
-    HelloWorldPanel.currentPanel = new HelloWorldPanel(panel, extensionUri,provider);
+    MainPanel.currentPanel = new MainPanel(panel, extensionUri,provider);
   }
 
   public static kill() {
-    HelloWorldPanel.currentPanel?.dispose();
-    HelloWorldPanel.currentPanel = undefined;
+    MainPanel.currentPanel?.dispose();
+    MainPanel.currentPanel = undefined;
   }
 
   public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri,provider:SidebarProvider) {
-    HelloWorldPanel.currentPanel = new HelloWorldPanel(panel, extensionUri,provider);
+    MainPanel.currentPanel = new MainPanel(panel, extensionUri,provider);
   }
 
   private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri,provider:SidebarProvider) {
@@ -100,7 +103,7 @@ export class HelloWorldPanel {
   }
 
   public dispose() {
-    HelloWorldPanel.currentPanel = undefined;
+    MainPanel.currentPanel = undefined;
 
     // Clean up our resources
     this._panel.dispose();
@@ -134,7 +137,7 @@ export class HelloWorldPanel {
           break;
         }
         case "testAchievement": {
-          console.log("in helloworld panel, id is: " + data.tag);
+          console.log("in "+ MainPanel.panelName + " panel, id is: " + data.tag);
           //this.updateSidebarProvider(+data.tag,true);
           this.updateSidebarProvider(+data.tag,await achievements.filter((achievement) => achievement.achievement.id==+data.tag)[0].run(data.value))
         }
@@ -150,7 +153,7 @@ export class HelloWorldPanel {
   private _getHtmlForWebview(webview: vscode.Webview) {
     // // And the uri we use to load this script in the webview
     const scriptUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "out/compiled", "HelloWorld.js")
+      vscode.Uri.joinPath(this._extensionUri, "out/compiled", MainPanel.panelName+".js")
     );
 
 
@@ -169,7 +172,7 @@ export class HelloWorldPanel {
       vscode.Uri.joinPath(this._extensionUri, "out", "compiled/swiper.css")
     );
     const styleVSCodeUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "out/compiled", "HelloWorld.css")
+      vscode.Uri.joinPath(this._extensionUri, "out/compiled", MainPanel.panelName+".css")
     );
 
     // Use a nonce to only allow specific scripts to be run
