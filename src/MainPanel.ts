@@ -179,7 +179,7 @@ export class MainPanel {
     const nonce = getNonce();
 
     return `<!DOCTYPE html>
-			<html lang="en">
+			<html lang="en" style="height:100%;">
 			<head>
 				<meta charset="UTF-8">
 				<!--
@@ -196,6 +196,11 @@ export class MainPanel {
         <script nonce="${nonce}">
           const tsvscode = acquireVsCodeApi();
         </script>
+        <style>
+        body {
+          height:100%;
+        }
+        </style>
 			</head>
         <body>
 	    </body>

@@ -1,4 +1,4 @@
-export function solve(inches:number):number{return inches*2.54;}
+export function solve(inches:number):number{ return inches*2.54}
 export function generate():number {
     return Math.floor(Math.random() * (10 - 1 + 1)) + 1;
 }
