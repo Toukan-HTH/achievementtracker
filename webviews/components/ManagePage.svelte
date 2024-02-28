@@ -2,11 +2,43 @@
     import { onMount } from 'svelte';
     import {achievements} from "../../src/testingenv";
     import Medal from './Medal.svelte'
+    import AceEditor from './AceEditor.svelte';
 
     let localAchievements = achievements;
     let medal = Medal
     let localAchievementsSubscriptions = [0,1];
+    let localCollectionsSubscriptions = [0,1,2,3]
+    let localHardCodedCollections =  [{
+        title:"Basic Operators",
+        description:"Achievements that  challenges you to make use of the basic operators in coding",
+        id:0,
+        achievement_ids: [0,1],
+    },{
+        title:"Learn to use Arrays",
+        description:"Arrays are used alot on coding, learn how to use them and manipulate their contents!",
+        id:1,
+        achievement_ids: [0,1],
+    },{
+        title:"Matrices",
+        description:"Matrices are often used in data science tasks, learn how to handle them!",
+        id:2,
+        achievement_ids: [0,1],
+    },{
+        title:"Basic Algorithms",
+        description:"Achievements that challenges you to make use of the basic operators to create algorithms",
+        id:3,
+        achievement_ids: [0,1],
+    }];
 
+
+    let generationFunction = "";
+    let validationFunction = "";
+    let compareFunction = "";
+    let difficultyRating = 0;
+    let description = "";
+    let title = "";
+    let creator = "";
+    let signature = "";
     
     onMount(() =>{
 
@@ -72,6 +104,7 @@
     border: 3px solid #404754;
     margin:15px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    align-items: center;
  }
 
  .content{
@@ -107,6 +140,12 @@
         text-overflow: ellipsis;
 }
  .achievement-details{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+ }
+
+ .collection-details{
     display: flex;
     flex-direction: column;
     width: 90%;
@@ -216,10 +255,62 @@
 
 <div class="collections-div">
     <h2 class="titles">Collections</h2>
+    {#each localHardCodedCollections as collection}
+    {#if localCollectionsSubscriptions.includes(collection.id)}
+        <div class="content">
+            <div class="collection-details">
+                <div class="top-row">
+                    <h2 class="title">{collection.title}</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">
+                        {collection.description}
+                    </h4>
+                </div>
+            </div>
+            <div class="sub-button-div">
+                <button class="sub-button subscribed-button" on:click={() => {localCollectionsSubscriptions = localCollectionsSubscriptions.filter(element => element!= collection.id)}}><span class="button-span"></span></button>
+            </div>
+        </div>
+        {:else}
+        <div class="content">
+            <div class="collection-details">
+                <div class="top-row">
+                    <h2 class="title">{collection.title}</h2>
+                </div>
+                <div class="middle-row">
+                    <h4 class="description">
+                        {collection.description}
+                    </h4>
+                </div>
+            </div>
+            <div class="sub-button-div" >
+                <button class="sub-button" on:click={() => {localCollectionsSubscriptions = [...localCollectionsSubscriptions, collection.id] }}>+</button>
+            </div>
+        </div>
+        {/if}
+    {/each}
+    
 
 </div>
 <div class="create-achievement-div">
     <h2 class="titles">Achievment Creation</h2>
-
+    <h3 class="titles">Generation Function</h3>
+    <input style="width:80%;" type="text" bind:value={generationFunction}>
+    <h3 class="titles">Validation Function</h3>
+    <input style="width:80%;" type="text" bind:value={validationFunction}>
+    <h3 class="titles">Compare Function</h3>
+    <input style="width:80%;" type="text" bind:value={compareFunction}>
+    <h3 class="titles">Difficulty Rating</h3>
+    <input style="width:80%;" type="text" bind:value={difficultyRating}>
+    <h3 class="titles">Description</h3>
+    <input style="width:80%;" type="text" bind:value={description}>
+    <h3 class="titles">Title</h3>
+    <input style="width:80%;" type="text" bind:value={title}>
+    <h3 class="titles">Creator</h3>
+    <input style="width:80%;" type="text" bind:value={creator}>
+    <h3 class="titles">Signature</h3>
+    <input style="width:80%;" type="text" bind:value={signature}>
+    <button style="width: 60px;height:30px;">Submit</button>
 </div>
 </div>
