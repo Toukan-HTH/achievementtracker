@@ -5,7 +5,7 @@
         "compareFunction": "export function compare():boolean { for (let index = 0; index < 5; index++) { let x = generate(); console.log(index); if(solve(x)!=convertInternal(x)){return false;}}return true;}",
         "difficultyRating":1,
         "description": "write a function that converts inches to centimeter",
-        "id":0,
+        "id":2,
         "title":"Inches to centimeters",
         "creator":"Henrik T Hafsø",
         "completed":false,

@@ -5,10 +5,10 @@
     import AceEditor from './AceEditor.svelte';
     import {HttpClient} from '../../src/HttpClient'
     let httpClient = new HttpClient();
-    let localAchievements = achievements;
+    let localAchievements: any[] = [];
     let medal = Medal
-    let localAchievementsSubscriptions = [0,1];
-    let localCollectionsSubscriptions = [0,1,2,3]
+    let localAchievementsSubscriptions : number[] = [];
+    let localCollectionsSubscriptions : number[]= [];
     let localHardCodedCollections: any[] =  [];
 
 
@@ -20,18 +20,32 @@
     let title = "";
     let creator = "";
     let signature = "";
-    
-    onMount(async () =>{
-        localHardCodedCollections = await httpClient.getAllCollections();
 
+    async function oninit(){
+        localHardCodedCollections = await httpClient.getAllCollections();
+        localAchievements = await httpClient.getAllAchievements();
+
+       
+    }
+    
+    onMount(() =>{
+        oninit();
         window.addEventListener('message', event => {
 
             const message = event.data; // The JSON data our extension sent
             // switch incase we ever need to add specific types that should be handled different
             switch (message.type) {
                 case"loadPanel":{
-
+                    console.log("[ManagePage.svelte] test");
                 }
+
+                case "initAchievementSub":{
+                    localAchievementsSubscriptions = (message.value).split(",").map(Number);
+                    //localAchievementsSubscriptions.sort();
+                    console.log("achievement subbed are : " + (message.value).split(",").map(Number));
+                    console.log("checking subs..." + localAchievementsSubscriptions);
+                }
+
             }
             //console.log("Recieved Message in webview, value is: " + message.value);
         });
@@ -40,7 +54,31 @@
 
 })
 
+async function testhttp(){
+    console.log("were in the svelte component");
+    try {
+            tsvscode.postMessage({
+                type:"testStorage",
+                tag:"Manager",
+                value:"0"
+            });
+        } catch (error) {
+            console.log(error);
+        }
+}
 
+function sanityCheck(array:number[],id:number){
+    let s = false;
+    array.forEach(element => {
+        //console.log("Checking, " + element + " versuse: " + id);
+        if(element == id){
+            //console.log("WE FOUND A MATCH")
+            s = true;
+        }
+    })
+    //console.log("returning... " + s);
+    return s;
+}
 
 
 
@@ -191,11 +229,11 @@
 </style>
 
 <div class="wrapper">
+
 <div class="achievements-div">
     <h2 class="titles">Achievments</h2>
     {#each localAchievements as achievement}
-
-    {#if localAchievementsSubscriptions.includes(achievement.id)} 
+    {#if sanityCheck(localAchievementsSubscriptions,achievement.id)} 
     <div class="content">
         <div class="achievement-details">
             <div class="top-row">
@@ -208,7 +246,7 @@
             </div>
         </div>
         <div class="sub-button-div">
-            <button class="sub-button subscribed-button" on:click={() => {localAchievementsSubscriptions = localAchievementsSubscriptions.filter(element => element!= achievement.id)}}><span class="button-span"></span></button>
+            <button class="sub-button subscribed-button" on:click={() => {console.log("Removing" + achievement.id); localAchievementsSubscriptions = localAchievementsSubscriptions.filter(element => element!= achievement.id)}}><span class="button-span"></span></button>
         </div>
     </div>
     {:else}

@@ -18,12 +18,32 @@ export class MainPanel {
   private provider: SidebarProvider;
   static panelName: string;
 
-  public static sendMessage(message:string){
+  public static async sendMessage(message:string){
     console.log("were in the MainPanel file");
     MainPanel.currentPanel?._panel.webview.postMessage({
       type:"loadPanel",
       value: message,
     });
+    this.currentPanel?.provider.addAchievementToStorage(3);
+    const ach =  this.currentPanel?.provider.getSubscribedAchievements();
+
+    ach?.then(res => {
+      MainPanel.currentPanel?._panel.webview.postMessage({
+        type:"initAchievementSub",
+        value: res.toString(),
+      });
+    });
+
+
+    //console.log("[MainPanel] ach should be populated: " + ach?.then(res => {console.log("it is populated: " + res.toString())}),);
+    /*MainPanel.currentPanel?._panel.webview.postMessage({
+      type:"initAchievementSub",
+      value: ach?.then(res => {return res.toString()}),
+    });
+    MainPanel.currentPanel?._panel.webview.postMessage({
+      type:"initCollectionSub",
+      value:  col?.then(res => {return res.toString()}),
+    });*/
   }
 
   private updateSidebarProvider(_id:number, _result:boolean){
@@ -140,6 +160,20 @@ export class MainPanel {
           console.log("in "+ MainPanel.panelName + " panel, id is: " + data.tag);
           //this.updateSidebarProvider(+data.tag,true);
           this.updateSidebarProvider(+data.tag,await achievements.filter((achievement) => achievement.achievement.id==+data.tag)[0].run(data.value))
+        }
+
+        case "testStorage": {
+
+          //this.provider.addAchievementToStorage(0);
+          //this.provider.addAchievementToStorage(1);
+          //this.provider.addAchievementToStorage(2);
+
+          //console.log(await this.provider.getSubscribedAchievements());
+          //this.provider.removeAchievementFromStorage(0);
+          //console.log(await this.provider.getSubscribedAchievements());
+          //this.provider.removeAchievementFromStorage(0);
+          //console.log("this should be an empty array idk")
+          //console.log(this.provider.getSubscribedAchievements());
         }
         // case "tokens": {
         //   await Util.globalState.update(accessTokenKey, data.accessToken);

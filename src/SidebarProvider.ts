@@ -13,12 +13,55 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
 
   public sendMessage(_type:string,_id:number){
-    console.log("in sidebarprovider, recieved id is: " + _id);
+    console.log("[SidebarProvider.ts] in sidebarprovider, recieved id is: " + _id);
     this._view?.webview.postMessage({
       type:_type,
       value: _id.toString(),
     });
   }
+
+  public async getSubscribedAchievements(){
+    let s = await this._secretStorage.get("subAchievements");
+    if(s == undefined){return []}
+    let y = s?.split(",").map(Number);
+    console.log("[SidebarProvider.ts] returning achievements..." + y.toString());
+    return y;
+  }
+
+
+
+
+  public async addAchievementToStorage(id:number){
+    let result = await this.getSubscribedAchievements();
+    if(result!=undefined){
+      if(!result.includes(id)){
+        result.push(id);
+        console.log("[SidebarProvider.ts] added new achievement, new subachievements is now: " + result.toString());
+        this._secretStorage.store("subAchievements", result.toString());
+      }
+    }else{
+      let newArray = [id];
+      this._secretStorage.store("subAchievements", newArray.toString());
+    }
+  }
+
+
+
+
+  public async removeAchievementFromStorage(id:number){
+    let result = await this.getSubscribedAchievements();
+    result = result?.filter(element => element!=id);
+    if(result!= undefined){
+      this._secretStorage.store("subAchievements", result.toString());
+    }
+  }
+
+
+
+
+
+
+
   public resolveWebviewView(webviewView: vscode.WebviewView) {
     this._view = webviewView;
 

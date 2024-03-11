@@ -9,7 +9,7 @@ export class HttpClient{
 
     async getAllAchievements(){
         return await axios.get('http:/localhost:5000/achievements').then((response) => {
-            console.log("fetching all achievements...");
+            console.log("[HttpClient.ts] fetching all achievements...");
             if (response.status == 200) {
                 return response.data;
 
@@ -23,7 +23,7 @@ export class HttpClient{
 
     async getAllCollections(){
         return await axios.get('http:/localhost:5000/collections').then((response) => {
-            console.log("fetching all collections...");
+            console.log("[HttpClient.ts] fetching all collections...");
             if (response.status == 200) {
                 return response.data;
 
