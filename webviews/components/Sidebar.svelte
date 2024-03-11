@@ -4,9 +4,10 @@
     import Medal from './Medal.svelte'
     import axios, {isCancel, AxiosError, type AxiosResponse} from 'axios';
     import {achievements} from "../../src/testingenv";
-
+    import {HttpClient} from '../../src/HttpClient'
     let localAchievements = achievements;
     let medal = Medal
+    let httpClient = new HttpClient();
 
     onMount(() =>{
 
@@ -61,6 +62,11 @@
         } catch (error) {
             
         }
+    }
+
+    async function testhttp(){
+        console.log(await httpClient.getAllAchievements());
+        localAchievements = await httpClient.getAllAchievements();
     }
 
 
@@ -193,6 +199,7 @@
 <div class="wrapper">
     <div class="header">
         <button on:click={() => openManagePanel()} >Manage</button>
+        <button on:click={() => testhttp()} >test</button>
     </div>
     
     <CollapsibleSection headerText={'Achievements'}>

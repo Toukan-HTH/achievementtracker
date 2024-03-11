@@ -10,5 +10,10 @@
         "creator":"Henrik T Hafsø",
         "completed":false,
         "signature": "export function solve(inches:number):number{}"
-    }]
+    }],
+    "collections":[{
+    "title":"Basic Operators",
+    "description":"Achievements that challenges you to make use of the basic operators in coding",
+    "id":0,
+    "achievement_ids": [0,1]}]
 }
