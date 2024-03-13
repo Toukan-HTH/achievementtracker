@@ -6,12 +6,17 @@
     import {achievements} from "../../src/testingenv";
     import {HttpClient} from '../../src/HttpClient'
     let localAchievements = achievements;
+    let localAchievementSubscriptions: number[]= [];
     let medal = Medal
     let httpClient = new HttpClient();
-
+    async function oninit(){
+        localAchievements = await httpClient.getAllAchievements();
+        const subs = await httpClient.getAllSubbed();
+        localAchievementSubscriptions = await subs.data[0].achievement_subs;
+    }
     onMount(() =>{
 
-
+        oninit();
 
         window.addEventListener('message', event => {
 
@@ -23,10 +28,14 @@
                     console.log(message.value)
                 }
                 case "updateAchievement":{
-                    console.log("Sidebar webview recieved message about achievement id: " + message.value);
+                    //console.log("Sidebar webview recieved message about achievement id: " + message.value);
                     //logic to find the achievement and update it to finished, etc etc
-                    localAchievements[+message.value].completed=true;
-                    console.log(localAchievements[0]);
+                    //localAchievements[+message.value].completed=true;
+                    //console.log(localAchievements[0]);
+                }
+
+                case "updateSubAchievement":{
+                    oninit();
                 }
             }
             //console.log("Recieved Message in webview, value is: " + message.value);
@@ -64,11 +73,19 @@
         }
     }
 
-    async function testhttp(){
-        console.log(await httpClient.getAllAchievements());
-        localAchievements = await httpClient.getAllAchievements();
-    }
 
+    function sanityCheck(array:number[],id:number){
+    let s = false;
+    array.forEach(element => {
+        //console.log("Checking, " + element + " versuse: " + id);
+        if(element == id){
+            //console.log("WE FOUND A MATCH")
+            s = true;
+        }
+    })
+    //console.log("returning... " + s);
+    return s;
+}
 
 
 
@@ -199,11 +216,11 @@
 <div class="wrapper">
     <div class="header">
         <button on:click={() => openManagePanel()} >Manage</button>
-        <button on:click={() => testhttp()} >test</button>
     </div>
     
     <CollapsibleSection headerText={'Achievements'}>
         {#each localAchievements as achievement}
+        {#if sanityCheck(localAchievementSubscriptions,achievement.id)}
         <div class="content">
             <div class="top-row">
                 <div class="icon"><svelte:component this={medal} /></div>
@@ -230,6 +247,7 @@
 
             </div>
         </div>
+        {/if}
         {/each}
 
     </CollapsibleSection>

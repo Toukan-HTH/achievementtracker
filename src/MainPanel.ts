@@ -182,6 +182,10 @@ export class MainPanel {
 
         }
 
+        case "updateSidebar" : {
+          this.provider.sendMessage("updateSubAchievement",0);
+        }
+
         case "testStorage": {
 
           //this.provider.addAchievementToStorage(0);

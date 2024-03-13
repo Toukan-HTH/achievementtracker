@@ -81,6 +81,15 @@ function sanityCheck(array:number[],id:number){
 
     await httpClient.updateSubs(localAchievementsSubscriptions,localCollectionsSubscriptions);
 
+    try {
+            tsvscode.postMessage({
+                type:"updateSidebar",
+                tag:"Manager",
+                value:"0"
+            });
+        } catch (error) {
+            console.log(error);
+        }
 }
 
 
@@ -88,6 +97,16 @@ function sanityCheck(array:number[],id:number){
     localAchievementsSubscriptions = [...localAchievementsSubscriptions, id];
 
     await httpClient.updateSubs(localAchievementsSubscriptions,localCollectionsSubscriptions);
+
+    try {
+            tsvscode.postMessage({
+                type:"updateSidebar",
+                tag:"Manager",
+                value:"0"
+            });
+        } catch (error) {
+            console.log(error);
+        }
 }
 
 function handleCollectionUnsubscribement(id:number){
