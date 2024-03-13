@@ -1,19 +1,52 @@
 {
-    "achievements" : [{
-        "generationFunction": "export function generate():number { return Math.floor(Math.random() * (10 - 1 + 1)) + 1; }",
-        "validationFunction": "export function convertInternal(x:number):number {return x*2.54;}",
-        "compareFunction": "export function compare():boolean { for (let index = 0; index < 5; index++) { let x = generate(); console.log(index); if(solve(x)!=convertInternal(x)){return false;}}return true;}",
-        "difficultyRating":1,
-        "description": "write a function that converts inches to centimeter",
-        "id":2,
-        "title":"Inches to centimeters",
-        "creator":"Henrik T Hafsø",
-        "completed":false,
-        "signature": "export function solve(inches:number):number{}"
-    }],
-    "collections":[{
-    "title":"Basic Operators",
-    "description":"Achievements that challenges you to make use of the basic operators in coding",
-    "id":0,
-    "achievement_ids": [0,1]}]
+  "achievements": [
+    {
+      "generationFunction": "export function generate():number { return Math.floor(Math.random() * (10 - 1 + 1)) + 1; }",
+      "validationFunction": "export function convertInternal(x:number):number {return x*2.54;}",
+      "compareFunction": "export function compare():boolean { for (let index = 0; index < 5; index++) { let x = generate(); console.log(index); if(solve(x)!=convertInternal(x)){return false;}}return true;}",
+      "difficultyRating": 1,
+      "description": "write a function that converts inches to centimeter",
+      "id": "1",
+      "title": "Inches to centimeters",
+      "creator": "Henrik T Hafsø",
+      "completed": false,
+      "signature": "export function solve(inches:number):number{}"
+    }
+  ],
+  "collections": [
+    {
+      "title": "Basic Operators",
+      "description": "Achievements that challenges you to make use of the basic operators in coding",
+      "id": "1",
+      "achievement_ids": [
+        1,
+        2
+      ]
+    },
+    {
+      "title": "Basic Operators",
+      "description": "Achievements that challenges you to make use of the basic operators in coding",
+      "id": "2",
+      "achievement_ids": [
+        3,
+        4
+      ]
+    },
+    {
+      "title": "Basic Operators",
+      "description": "Achievements that challenges you to make use of the basic operators in coding",
+      "id": "3",
+      "achievement_ids": [
+        5,
+        6
+      ]
+    }
+  ],
+  "subs": [
+    {
+      "achievement_subs": [],
+      "collection_subs": [],
+      "id": "0"
+    }
+  ]
 }

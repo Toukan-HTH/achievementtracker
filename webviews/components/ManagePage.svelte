@@ -24,8 +24,9 @@
     async function oninit(){
         localHardCodedCollections = await httpClient.getAllCollections();
         localAchievements = await httpClient.getAllAchievements();
-
-       
+        const subs = await httpClient.getAllSubbed();
+        localAchievementsSubscriptions= subs.data[0].achievement_subs;
+        localCollectionsSubscriptions = subs.data[0].collection_subs;
     }
     
     onMount(() =>{
@@ -39,12 +40,7 @@
                     console.log("[ManagePage.svelte] test");
                 }
 
-                case "initAchievementSub":{
-                    localAchievementsSubscriptions = (message.value).split(",").map(Number);
-                    //localAchievementsSubscriptions.sort();
-                    console.log("achievement subbed are : " + (message.value).split(",").map(Number));
-                    console.log("checking subs..." + localAchievementsSubscriptions);
-                }
+
 
             }
             //console.log("Recieved Message in webview, value is: " + message.value);
@@ -78,6 +74,36 @@ function sanityCheck(array:number[],id:number){
     })
     //console.log("returning... " + s);
     return s;
+}
+
+    async function handleAchievementUnsubscribement(id:number){
+    localAchievementsSubscriptions = localAchievementsSubscriptions.filter(element => element!= id) // handle the webview local version
+
+    await httpClient.updateSubs(localAchievementsSubscriptions,localCollectionsSubscriptions);
+
+}
+
+
+    async function handleAchievementSubscription(id:number){
+    localAchievementsSubscriptions = [...localAchievementsSubscriptions, id];
+
+    await httpClient.updateSubs(localAchievementsSubscriptions,localCollectionsSubscriptions);
+}
+
+function handleCollectionUnsubscribement(id:number){
+    localCollectionsSubscriptions = localCollectionsSubscriptions.filter(element => element!= id); // handsle the webview local version
+    localHardCodedCollections.filter( element => element.id == id)[0].achievement_ids.forEach((element: number) => {
+        handleAchievementUnsubscribement(element);
+    });
+}
+
+function handleCollectionSubscription(id:number){
+    
+    localCollectionsSubscriptions = [...localCollectionsSubscriptions, id];
+    localHardCodedCollections.filter( element => element.id == id)[0].achievement_ids.forEach((element: number) => {
+        handleAchievementSubscription(element);
+    });
+
 }
 
 
@@ -246,7 +272,7 @@ function sanityCheck(array:number[],id:number){
             </div>
         </div>
         <div class="sub-button-div">
-            <button class="sub-button subscribed-button" on:click={() => {console.log("Removing" + achievement.id); localAchievementsSubscriptions = localAchievementsSubscriptions.filter(element => element!= achievement.id)}}><span class="button-span"></span></button>
+            <button class="sub-button subscribed-button" on:click={() => {console.log("Removing" + achievement.id); handleAchievementUnsubscribement(achievement.id)}}><span class="button-span"></span></button>
         </div>
     </div>
     {:else}
@@ -263,7 +289,7 @@ function sanityCheck(array:number[],id:number){
         </div>
 
         <div class="sub-button-div" >
-            <button class="sub-button" on:click={() => {localAchievementsSubscriptions = [...localAchievementsSubscriptions, achievement.id] }}>+</button>
+            <button class="sub-button" on:click={() => {handleAchievementSubscription(achievement.id) }}>+</button>
         </div>
     </div>
     {/if}
@@ -274,7 +300,7 @@ function sanityCheck(array:number[],id:number){
 <div class="collections-div">
     <h2 class="titles">Collections</h2>
     {#each localHardCodedCollections as collection}
-    {#if localCollectionsSubscriptions.includes(collection.id)}
+    {#if sanityCheck(localCollectionsSubscriptions,collection.id)}
         <div class="content">
             <div class="collection-details">
                 <div class="top-row">
@@ -287,7 +313,7 @@ function sanityCheck(array:number[],id:number){
                 </div>
             </div>
             <div class="sub-button-div">
-                <button class="sub-button subscribed-button" on:click={() => {localCollectionsSubscriptions = localCollectionsSubscriptions.filter(element => element!= collection.id)}}><span class="button-span"></span></button>
+                <button class="sub-button subscribed-button" on:click={() => {handleCollectionUnsubscribement(collection.id)}}><span class="button-span"></span></button>
             </div>
         </div>
         {:else}
@@ -303,7 +329,7 @@ function sanityCheck(array:number[],id:number){
                 </div>
             </div>
             <div class="sub-button-div" >
-                <button class="sub-button" on:click={() => {localCollectionsSubscriptions = [...localCollectionsSubscriptions, collection.id] }}>+</button>
+                <button class="sub-button" on:click={() => {handleCollectionSubscription(collection.id) }}>+</button>
             </div>
         </div>
         {/if}

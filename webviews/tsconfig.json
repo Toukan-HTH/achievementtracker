@@ -1,6 +1,6 @@
 {
     "extends": "@tsconfig/svelte/tsconfig.json",
-    "include": ["./**/*"],
+    "include": ["./**/*", "../src/HttpClient.ts"],
     "exclude": ["../node_modules/*"],
     "compilerOptions": {"strict": true, },
   }

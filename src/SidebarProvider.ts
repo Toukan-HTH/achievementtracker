@@ -22,12 +22,22 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
   public async getSubscribedAchievements(){
     let s = await this._secretStorage.get("subAchievements");
-    if(s == undefined){return []}
+    console.log("[SidebarProvider.ts] fetched achievement from localstorage... " + s?.toString());
+    if(s == undefined){return [999]}
     let y = s?.split(",").map(Number);
     console.log("[SidebarProvider.ts] returning achievements..." + y.toString());
     return y;
   }
 
+
+  public async getSubscribedCollections(){
+    let sc = await this._secretStorage.get("collections");
+    console.log("[SidebarProvider.ts] fetched collection from localstorage... " + sc?.toString());
+    if(sc == undefined){return [999]}
+    let yc = sc?.split(",").map(Number);
+    console.log("[SidebarProvider.ts] returning collections..." + yc.toString());
+    return yc;
+  }
 
 
 
@@ -48,6 +58,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
 
 
+
+
   public async removeAchievementFromStorage(id:number){
     let result = await this.getSubscribedAchievements();
     result = result?.filter(element => element!=id);
@@ -56,6 +68,14 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     }
   }
 
+
+  public async removeCollectionFromStorage(id:number){
+    let result = await this.getSubscribedCollections();
+    result = result?.filter(element => element!=id);
+    if(result!= undefined){
+      this._secretStorage.store("collections", result.toString());
+    }
+  }
 
 
 

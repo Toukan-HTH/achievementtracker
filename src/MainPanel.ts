@@ -24,15 +24,20 @@ export class MainPanel {
       type:"loadPanel",
       value: message,
     });
-    this.currentPanel?.provider.addAchievementToStorage(3);
-    const ach =  this.currentPanel?.provider.getSubscribedAchievements();
+    //this.currentPanel?.provider.addAchievementToStorage(3);
+    //this.currentPanel?.provider.addCollectionToStorage(5);
+    //await this.currentPanel?.provider.removeAchievementFromStorage(0);
+    //await this.currentPanel?.provider.removeAchievementFromStorage(1);
+    //await this.currentPanel?.provider.removeAchievementFromStorage(2);
+    //await this.currentPanel?.provider.removeAchievementFromStorage(3);
+    //await this.currentPanel?.provider.removeAchievementFromStorage(5);
 
-    ach?.then(res => {
-      MainPanel.currentPanel?._panel.webview.postMessage({
-        type:"initAchievementSub",
-        value: res.toString(),
-      });
-    });
+    //await this.currentPanel?.provider.removeCollectionFromStorage(0);
+    //await this.currentPanel?.provider.removeCollectionFromStorage(1);
+    //await this.currentPanel?.provider.removeCollectionFromStorage(2);
+    //await this.currentPanel?.provider.removeCollectionFromStorage(3);
+    //await this.currentPanel?.provider.removeCollectionFromStorage(5);
+
 
 
     //console.log("[MainPanel] ach should be populated: " + ach?.then(res => {console.log("it is populated: " + res.toString())}),);
@@ -160,6 +165,21 @@ export class MainPanel {
           console.log("in "+ MainPanel.panelName + " panel, id is: " + data.tag);
           //this.updateSidebarProvider(+data.tag,true);
           this.updateSidebarProvider(+data.tag,await achievements.filter((achievement) => achievement.achievement.id==+data.tag)[0].run(data.value))
+        }
+
+        case "removeAchievement":{
+
+        }
+        case "removeCollection":{
+        }
+
+        case "addAchievement":{
+
+        }
+
+        case "addCollection":{
+          //console.log("[MainPanel] adding collection to local storage...");
+
         }
 
         case "testStorage": {
