@@ -6,51 +6,180 @@
       "compareFunction": "export function compare():boolean { for (let index = 0; index < 5; index++) { let x = generate(); console.log(index); if(solve(x)!=convertInternal(x)){return false;}}return true;}",
       "difficultyRating": 1,
       "description": "write a function that converts inches to centimeter",
-      "id": 0,
+      "id": "0",
       "title": "Inches to centimeters",
       "creator": "Henrik T Hafsø",
       "completed": false,
       "signature": "export function solve(inches:number):number{}"
+    },
+    {
+      "generationFunction": "export function generate():number { return Math.floor(Math.random() * (10 - 1 + 1)) + 1; }",
+      "validationFunction": "export function convertInternal(x:number):number {return x*2.54;}",
+      "compareFunction": "export function compare():boolean { for (let index = 0; index < 5; index++) { let x = generate(); console.log(index); if(solve(x)!=convertInternal(x)){return false;}}return true;}",
+      "difficultyRating": 2,
+      "description": "write a function that returns if the a number is a prime number as true, and if not returns false",
+      "id": "1",
+      "title": "Is that a prime?",
+      "creator": "Henrik T Hafsø",
+      "completed": false,
+      "signature": "export function solve(inches:number):number{}"
+    },
+    {
+      "generationFunction": "",
+      "validationFunction": "",
+      "compareFunction": "",
+      "difficultyRating": 5,
+      "description": "given two matrixes, write a function that multiplies them and returns the result",
+      "id": "2",
+      "title": "Multiply Matrices",
+      "creator": "Henrik T Hafsø",
+      "completed": false,
+      "signature": ""
+    },
+    {
+      "generationFunction": "",
+      "validationFunction": "",
+      "compareFunction": "",
+      "difficultyRating": 2,
+      "description": "given a string input, make a function that reverses the order of chars in the string, for example help -> pleh",
+      "id": "3",
+      "title": "Reverse a string",
+      "creator": "Henrik T Hafsø",
+      "completed": false,
+      "signature": ""
+    },
+    {
+      "generationFunction": "",
+      "validationFunction": "",
+      "compareFunction": "",
+      "difficultyRating": 2,
+      "description": "Given a string input, count the number of vowel in said string and return it as an integer number",
+      "id": "4",
+      "title": "Count Vowels",
+      "creator": "Henrik T Hafsø",
+      "completed": false,
+      "signature": ""
+    },
+    {
+      "generationFunction": "",
+      "validationFunction": "",
+      "compareFunction": "",
+      "difficultyRating": 2,
+      "description": "Write a function that generates the Fibonacci sequence up to a specified number of terms. The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones, starting with 0 and 1.",
+      "id": "5",
+      "title": "Fibonacci Sequence",
+      "creator": "Henrik T Hafsø",
+      "completed": false,
+      "signature": ""
+    },
+    {
+      "generationFunction": "",
+      "validationFunction": "",
+      "compareFunction": "",
+      "difficultyRating": 2,
+      "description": "Write a function that calculates the factorial of a given non-negative integer. The factorial of a number n is the product of all positive integers less than or equal to n.",
+      "id": "6",
+      "title": "Factorial Calculation",
+      "creator": "Henrik T Hafsø",
+      "completed": false,
+      "signature": ""
+    },
+    {
+      "generationFunction": "",
+      "validationFunction": "",
+      "compareFunction": "",
+      "difficultyRating": 2,
+      "description": "Write a function that checks whether a given string is a palindrome or not. A palindrome is a word, phrase, number, or other sequence of characters that reads the same forward and backward.",
+      "id": "7",
+      "title": "Palindrome Check",
+      "creator": "Henrik T Hafsø",
+      "completed": false,
+      "signature": ""
+    },
+    {
+      "generationFunction": "",
+      "validationFunction": "",
+      "compareFunction": "",
+      "difficultyRating": 6,
+      "description": "Implement a sorting algorithm such as Bubble Sort, Selection Sort, or Insertion Sort. Write a function that takes an unsorted list of integers as input and returns the list sorted in ascending order.",
+      "id": "8",
+      "title": "Sorting Algorithm Implementation",
+      "creator": "Henrik T Hafsø",
+      "completed": false,
+      "signature": ""
+    },
+    {
+      "generationFunction": "",
+      "validationFunction": "",
+      "compareFunction": "",
+      "difficultyRating": 2,
+      "description": "Write a function that calculates the sum of the digits of a positive integer.",
+      "id": "9",
+      "title": "Sum of Digits",
+      "creator": "Henrik T Hafsø",
+      "completed": false,
+      "signature": ""
+    },
+    {
+      "generationFunction": "",
+      "validationFunction": "",
+      "compareFunction": "",
+      "difficultyRating": 2,
+      "description": "Write a function that takes an array of unique integers from 1 to n (where n is the length of the array + 1) with one missing number, and returns the missing number.",
+      "id": "10",
+      "title": "Find the Missing Number",
+      "creator": "Henrik T Hafsø",
+      "completed": false,
+      "signature": ""
+    },
+    {
+      "generationFunction": "",
+      "validationFunction": "",
+      "compareFunction": "",
+      "difficultyRating": 5,
+      "description": "Implement a function to reverse a singly linked list.",
+      "id": "11",
+      "title": "Reverse a Linked List",
+      "creator": "Henrik T Hafsø",
+      "completed": false,
+      "signature": ""
     }
   ],
   "collections": [
     {
       "title": "Basic Operators",
       "description": "Achievements that challenges you to make use of the basic operators in coding",
-      "id": 0,
+      "id": "0",
       "achievement_ids": [
         0,
         1
       ]
     },
     {
-      "title": "Basic Operators",
-      "description": "Achievements that challenges you to make use of the basic operators in coding",
-      "id": 1,
+      "title": "String manipulation",
+      "description": "Achievements that challenges you to make use of the basic string manipulations in coding",
+      "id": "1",
       "achievement_ids": [
-        2,
-        3
+        3,
+        4
       ]
     },
     {
-      "title": "Basic Operators",
-      "description": "Achievements that challenges you to make use of the basic operators in coding",
-      "id": 2,
+      "title": "Basic Algorithms",
+      "description": "Achievements that challenges you to make use of the basic algorithms in coding",
+      "id": "2",
       "achievement_ids": [
-        4,
-        5
+        6,
+        7,
+        8,
+        10
       ]
     }
   ],
   "subs": [
     {
-      "achievement_subs": [
-        2,
-        0
-      ],
-      "collection_subs": [
-        1
-      ],
+      "achievement_subs": [],
+      "collection_subs": [],
       "id": "0"
     }
   ]

@@ -29,6 +29,10 @@ export class HttpClient{
         axios.put('http:/localhost:5000/subs/0',{achievement_subs:achievements.map(Number),collection_subs:collections.map(Number)});
     }
 
+    async updateAchievement(id:number){
+        axios.patch("http:/localhost:5000/achievements?id=1", {"test":true});
+    }
+
 
 
 

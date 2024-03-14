@@ -1,0 +1,27 @@
+1: Engagement level:
+    Do beginners find the challenges motivating and enjoyable? 
+
+2: Learning Progress
+    Do beginners feel that the challenges help them improve their coding skills?
+    Are beginners able to see noticeable progress in their coding abilities as they complete more challenges?
+
+3: Understanding of Concepts
+    Do beginners feel that the challenges help them grasp fundamental programming concepts better?
+    Are beginners able to apply concepts learned from the challenges to real-world coding scenarios?
+
+4: Confidence Boost
+    Do beginners feel more confident in their coding abilities after completing challenges?
+    Do beginners feel encouraged to tackle more complex coding tasks after successfully completing challenges?
+
+5: Problem-Solving Skills
+    Do beginners feel that the challenges help them develop problem-solving skills?
+
+6: Variety and Progression
+    Are there enough diverse challenges in terms of difficulty level and topics covered?
+
+7: Overall Satisfaction
+    On a scale of 1 to 10, how satisfied are beginners with their experience using the extension and completing challenges?
+    Would beginners recommend the extension to other novice coders based on their experience?
+
+
+These questions aim to evaluate the effectiveness of the coding challenges extension in enhancing the learning experience of beginner coders within the VSCode environment

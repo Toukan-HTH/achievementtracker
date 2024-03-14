@@ -3,12 +3,12 @@
     import CollapsibleSection from './CollapsibleSection.svelte'
     import Medal from './Medal.svelte'
     import axios, {isCancel, AxiosError, type AxiosResponse} from 'axios';
-    import {achievements} from "../../src/testingenv";
     import {HttpClient} from '../../src/HttpClient'
-    let localAchievements = achievements;
+    let localAchievements: any[] = [];
     let localAchievementSubscriptions: number[]= [];
     let medal = Medal
     let httpClient = new HttpClient();
+    let dummyUpdated = 0;
     async function oninit(){
         localAchievements = await httpClient.getAllAchievements();
         const subs = await httpClient.getAllSubbed();
@@ -28,10 +28,12 @@
                     console.log(message.value)
                 }
                 case "updateAchievement":{
-                    //console.log("Sidebar webview recieved message about achievement id: " + message.value);
+                    console.log("Sidebar webview recieved message about achievement id: " + message.value);
+                    //! TODO UPDATE SERVER WITH COMPLETED STATUS!!, set local ver  to true!
                     //logic to find the achievement and update it to finished, etc etc
-                    //localAchievements[+message.value].completed=true;
-                    //console.log(localAchievements[0]);
+                    httpClient.updateAchievement(+message.value);
+                    oninit();
+                    console.log(localAchievements[0]);
                 }
 
                 case "updateSubAchievement":{
@@ -46,7 +48,6 @@
     })
 
     function test(id:number){
-        console.log(achievements[0]);
         try {
             tsvscode.postMessage({
                 type:"testAchievement",

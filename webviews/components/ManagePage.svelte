@@ -147,6 +147,7 @@ function handleCollectionSubscription(id:number){
     border: 3px solid #404754;
     margin:15px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    overflow: scroll;
  }
 
  .collections-div{
@@ -157,6 +158,7 @@ function handleCollectionSubscription(id:number){
     border: 3px solid #404754;
     margin:15px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    overflow: scroll;
  }
 
  .create-achievement-div{
